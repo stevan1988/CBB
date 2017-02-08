@@ -1,0 +1,194 @@
+package com.crossballbox.controller;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.crossballbox.dao.UserDAO;
+import com.crossballbox.model.User;
+import com.crossballbox.security.Navigation;
+import com.crossballbox.service.EMailService;
+import com.crossballbox.service.UserService;
+
+@Controller
+@Navigation(Section.HOME)
+public class HomeController {
+
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+
+	@Autowired
+	private UserDAO userDAO;
+
+	@Autowired
+	private EMailService eMailService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	protected AuthenticationManager authenticationManager;
+
+	@RequestMapping(value = { "", "/", "/index" })
+	public String home(Model model) {
+		logger.info("Oppening index page");
+
+		model.addAttribute("", "");
+		return "index";
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String displayLogin(Model model) {
+		logger.info("Oppening login page");
+
+		model.addAttribute("", "");
+		return "login";
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String executeLogin(@RequestParam(value = "username", required = true) String username,
+			@RequestParam(value = "password", required = true) String password) {
+
+		return "index";
+	}
+
+	@RequestMapping(value = "/signUp", method = RequestMethod.GET)
+	public String displaySignUp(Model model) {
+		logger.info("Oppening signUp page");
+
+		model.addAttribute("", "");
+		return "signup";
+	}
+
+	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
+	public String executeSignUp(Model model, @RequestParam(value = "firstName", required = true) String firstName,
+			@RequestParam(value = "lastName", required = true) String lastName,
+			@RequestParam(value = "eMail", required = true) String eMail,
+			@RequestParam(value = "username", required = true) String username,
+			@RequestParam(value = "password", required = true) String password) {
+		logger.info("Oppening signUp page");
+
+		model.addAttribute("", "");
+
+		User user = new User();
+		// Date date = new Date();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.seteMail(eMail);
+		user.setEnabled("false");
+		user.setUsername(username);
+		user.setPassword(password);
+
+		// check if already exxist that user - mail, username
+
+		// create token and add user in database
+		String confirmationLink = userService.createActivationToken(user, true);
+
+		// slanje aktivaciong mail-a
+		eMailService.send(user, confirmationLink);
+
+		return "email_verification";
+	}
+
+	@RequestMapping("/user/activate")
+	public String userActivation(@RequestParam(value = "activation", required = true) String token,
+			HttpServletRequest request) {
+		User user = userDAO.findUserByToken(token);
+		if (user != null) {
+			user.setEnabled("true");
+			userDAO.save(user);
+		}
+
+		// auto login user after registration
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(),
+				user.getPassword());
+		request.getSession();
+		authToken.setDetails(new WebAuthenticationDetails(request));
+		Authentication authenticatedUser = authenticationManager.authenticate(authToken);
+		SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+
+		return "index";
+	}
+
+	@RequestMapping("/news")
+	public String news(Model model) {
+		logger.info("Oppening news page");
+
+		model.addAttribute("", "");
+		return "news";
+	}
+
+	@RequestMapping("/submit")
+	public String submit(Model model) {
+		logger.info("Oppening signUp page");
+
+		model.addAttribute("", "");
+		return "submit";
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public String search(Model model, @RequestParam(value = "search", required = false) String query) {
+		logger.info("Search query: " + query);
+		List<User> users = new ArrayList<User>();
+		if (!(query.isEmpty() || "".equals(query.trim()) || "*".equals(query.trim()))) {
+			User user = userDAO.getUserByUsername(query);
+			if(user != null)
+				users.add(user);
+			List<User> tempUsers = userDAO.getUsersByFirstName(query);
+			if(tempUsers.size()>0)
+				users.addAll(tempUsers);
+			tempUsers = userDAO.getUsersByLastName(query);
+			if(tempUsers.size()>0)
+				users.addAll(tempUsers);
+			tempUsers = userDAO.findUsersByFirstNameContaining(query);
+			if(tempUsers.size()>0)
+				users.addAll(tempUsers);
+			tempUsers = userDAO.findUsersByLastNameContaining(query);
+			if(tempUsers.size()>0)
+				users.addAll(tempUsers);
+			
+			// Creating list with the distinct users
+			users = users.stream().distinct().collect(Collectors.toList());
+			//sort users by id
+			Collections.sort(users, Comparator.comparing(User::getId).thenComparing(User::getId));
+
+		} else {
+			users = userDAO.findAll();
+		}
+
+		model.addAttribute("users", users);
+		return "admin/search_results";
+	}
+}

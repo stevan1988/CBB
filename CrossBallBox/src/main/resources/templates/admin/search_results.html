@@ -1,0 +1,68 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/main">
+<head>
+    <title>Search results</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="page-header">
+        <div id="heading">
+            <h2 style="display:inline;">Search Results for "</h2><h1 style="display:inline;" th:text="${query}"></h1><h2 style="display:inline;">"</h2>
+         </div>
+        </div>
+        <div><a class="btn btn-default navbar-btn navbar-right" th:href="@{/signup}"  onClick="return popup(this, 'Add New User')" role="button">Add User</a></div>
+<div class="wrapper">
+<button class="button-border toggleModal">Arigger iModal</button>
+
+<div class="modal">
+    
+    <header>
+      <h2>Title</h2>
+      <button class="close toggleModal">Close</button>
+    </header>
+    
+    <section>
+      <p>Lorem ipsum dolor asdassaakjfaskhgfsahflsajhglksahjdljasglhasfhklsit.</p>
+    </section>
+    
+    <button class="button-border button-success">Save</button>
+    
+    <button class="button-border button-error pull-right">Lock</button>
+    
+  </div>      
+</div>
+
+        <table class="table table-striped table-hover ">
+            <thead>
+            <tr>
+                <th>#id</th>
+                <th>User Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+<!--                 <th>First Registration</th> -->
+<!--                 <th>Last Registration</th> -->
+                <th>User Details</th>
+            </tr>
+            </thead>
+            <tbody>
+<!--            <tr th:class="${viewHelper.submissionTableClass(user.status)}" th:each="user : ${users}"> -->
+			<tr th:each="user : ${users}"> 
+                <td th:text="${user.id}">1</td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.lastName}"></td>
+<!--                 <td th:text="${user.dateCreated}"></td> -->
+<!--                 <td th:text="${user.dateModified}"></td> -->
+                
+                
+                
+                <td><a class="btn btn-default navbar-btn navbar-right" th:href="@{/admin/user?id=}+${user.id}" role="button">User Details</a></td>
+                <td><a class="btn btn-default navbar-btn navbar-right" th:href="@{/admin/user?id=}+${user.id}" role="button">Delete User</a></td>
+            </tr> 
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+</body>
+</html>

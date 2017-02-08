@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	
+	<link rel="icon" href="../img/favicon.png"></link>
+	
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Head of Application" />
+<meta name="author" content="Stevan Todorovic" />
+
+<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">CBB
+	Application</title>
+
+<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button id="bs-example-navbar-collapse-1" type="button"
+					class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#navbar" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" th:href="@{/}">CrossBallBox</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li th:class="${navSection == 'home' ? 'active' : ''}"><a
+						th:href="@{/}">Home</a></li>
+					<li th:class="${navSection == 'submit' ? 'active' : ''}"><a
+						th:href="@{/submit}">Submit</a></li>
+					<li th:class="${navSection == 'news' ? 'active' : ''}"><a
+						th:href="@{/news}">News</a></li>
+				</ul>
+
+<!-- 				<h1 th:inline="text">Hello -->
+<!-- 					[[${#httpServletRequest.remoteUser}]]!</h1> -->
+
+
+<!-- 				<div th:if="${#authorization.expression('isAuthenticated()')}"> -->
+<!-- 					This will only be displayed if authenticated user.</div> -->
+				
+<!-- 				<div th:if="${#authorization.expression('isAuthenticated()')}"> -->
+<!-- 					<div th:if="${#strings.contains(#authentication.principal.authorities,'USER')}"> -->
+<!-- 						User with USER ROLE -->
+<!-- 					</div> -->
+<!-- 					<div th:if="${#strings.contains(#authentication.principal.authorities,'ADMIN')}"> -->
+<!-- 						User with ADMIN ROLE -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+
+
+<!-- 				<span -->
+<!-- 					th:text="${#authorization.expression('isAuthenticated()')} ?  -->
+<!--                'the user is logged in' :  -->
+<!--                'the user is NOT logged in'"> -->
+<!-- 				</span> -->
+				<div th:if="!${#authorization.expression('isAuthenticated()')}">
+			
+<!-- 				<td>	<input class="search-text" name="search" placeholder="Search..."/></td> -->
+            		<a class="btn btn-default navbar-btn navbar-right" sec:authorize="!hasRole('ROLE_USER1')" th:href="@{/login}" role="button" id="a">Login</a>
+<!--             	<a class="btn btn-default navbar-btn navbar-right" onclick="window.open('print.html', 'newwindow', 'width=300, height=250'); return false;">Login1</a> -->
+           			<a class="btn btn-default navbar-btn navbar-right" sec:authorize="!hasAnyRole('ROLE_USER')" th:href="@{/signUp}" role="button">Sign Up</a>
+
+            	</div>
+
+<!-- 				<div th:if="${#authorization.expression('isAuthenticated()')}"> -->
+<!-- 					<form th:action="@{/logout}" method="POST"> -->
+<!-- 						<input class="btn btn-default navbar-btn navbar-right" -->
+<!-- 							type="submit" value="Logout" /> -->
+<!-- 					</form> -->
+<!-- 				</div> -->
+
+<!-- 				<ul class="nav navbar-nav navbar-right" -->
+<!--  					th:if="${#httpServletRequest.isUserInRole('ROLE_USER')}"> -->
+<!--				<li class="dropdown"> --> 
+<!-- 						<li> -->
+						<!-- <a id="user-menu" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img th:src="${#authentication.principal.avatarUrl}" height="20" width="20"/> <span class="caret"></span></a> -->
+				<div th:if="${#authorization.expression('isAuthenticated()')}">
+				<ul class="nav navbar-nav navbar-right">
+					<li sec:authorize="hasRole('USER')">
+<!-- 					<li th:if="${#strings.contains(#authentication.principal.authorities,'USER')}"> -->
+						<table id="top-table" class="top-table">
+						<tr>
+							<td>
+								<div>
+									<form th:action="@{/logout}" method="POST">
+										<input class="btn btn-default navbar-btn navbar-right"
+											type="submit" value="Logout" />
+									</form>
+								</div>
+							</td>
+							<td>
+							<div>
+								<br>
+								</br></div>
+							</td>
+						</tr>
+						</table>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li sec:authorize="hasRole('ADMIN')" >
+<!-- 					<li th:if="${#strings.contains(#authentication.principal.authorities,'ADMIN')}"> -->
+						<table id="top-table" class="top-table">
+						<tr>
+							<td>
+								<form th:action="@{/admin/search}" method="GET">
+									<input class="search-text" name="search" placeholder="Search..." />
+								</form>
+							</td>
+							<td>  </td>
+							<td>
+								<a th:href="@{/admin}">Admin</a>
+							</td>
+							<td>
+								<div th:if="${#authorization.expression('isAuthenticated()')}">
+									<form th:action="@{/logout}" method="POST">
+										<input class="btn btn-default navbar-btn navbar-right"
+											type="submit" value="Logout" />
+
+									</form>
+								</div>
+							</td>
+						</tr>
+						</table>	
+					</li>
+				</ul>
+				</div>
+		</div>
+			<!--/.nav-collapse -->
+	</div>
+	</nav>
+	<div class="container-fluid wrapper">
+		<div class="container">
+			<div id="successMessage" th:if="${successMessage != null}"
+				class="alert alert-success">
+				<button type="button" class="close" data-dismiss="alert"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span th:text="${successMessage}"></span>
+			</div>
+		</div>
+		<div layout:fragment="content">
+			<h1>Example content</h1>
+		</div>
+	</div>
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/user_details.js}"></script>
+</body>
+</html>
