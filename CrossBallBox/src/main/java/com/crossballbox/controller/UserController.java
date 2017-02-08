@@ -125,6 +125,7 @@ public class UserController {
 
 	private void copyFile(File sourceFile, File destFile) throws IOException {
 		if (!destFile.exists()) {
+			//TODO: ispravi, kad nema kreiran fajl!
 			destFile.createNewFile();
 		}
 
