@@ -1,9 +1,11 @@
 package com.crossballbox.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.crossballbox.model.TrainingProgram;
 import com.crossballbox.model.User;
 
 public interface UserDAO extends JpaRepository<User, Integer> {
@@ -23,5 +25,7 @@ public interface UserDAO extends JpaRepository<User, Integer> {
 	List<User> getUsersByLastName(String lastName);
 	
 	List<User> findAll();
+	
+//	List<User> getUsersByTrainings(TrainingProgram trainings);
 
 }

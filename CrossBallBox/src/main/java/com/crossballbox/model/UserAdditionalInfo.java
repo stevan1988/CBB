@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @SuppressWarnings("serial")
-public class UserAdditionalInfo implements Serializable  {
+public class UserAdditionalInfo implements Serializable {
 
 	@GeneratedValue
 	@Id
@@ -25,7 +25,7 @@ public class UserAdditionalInfo implements Serializable  {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	@OneToOne
 	@JoinColumn(name = "id")
 	private UserInfo userInfo;
@@ -37,7 +37,7 @@ public class UserAdditionalInfo implements Serializable  {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-	
+
 	@Column(name = "watherLiterPerDay")
 	private double watherLiterPerDay;
 
@@ -47,11 +47,22 @@ public class UserAdditionalInfo implements Serializable  {
 	@Column(name = "suplementsOrProtein")
 	private boolean suplementsOrProtein;
 
+	@Column(name = "suplementsOrProteinDescription")
+	private String suplementsOrProteinDescription;
+
 	@Column(name = "physicalActivity")
 	private boolean physicalActivity;
 
 	@Column(name = "physicalActivityDescription")
 	private String physicalActivityDescription;
+
+	public String getSuplementsOrProteinDescription() {
+		return suplementsOrProteinDescription;
+	}
+
+	public void setSuplementsOrProteinDescription(String suplementsOrProteinDescription) {
+		this.suplementsOrProteinDescription = suplementsOrProteinDescription;
+	}
 
 	public double getWatherLiterPerDay() {
 		return watherLiterPerDay;
@@ -90,6 +101,20 @@ public class UserAdditionalInfo implements Serializable  {
 	}
 
 	public void setPhysicalActivityDescription(String physicalActivityDescription) {
+		this.physicalActivityDescription = physicalActivityDescription;
+	}
+
+	public UserAdditionalInfo() {
+	}
+
+	public UserAdditionalInfo(int id, double watherLiterPerDay, int timeOfMealPerDay, boolean suplementsOrProtein,
+			String suplementsOrProteinDescription, boolean physicalActivity, String physicalActivityDescription) {
+		this.id = id;
+		this.watherLiterPerDay = watherLiterPerDay;
+		this.timeOfMealPerDay = timeOfMealPerDay;
+		this.suplementsOrProtein = suplementsOrProtein;
+		this.suplementsOrProteinDescription = suplementsOrProteinDescription;
+		this.physicalActivity = physicalActivity;
 		this.physicalActivityDescription = physicalActivityDescription;
 	}
 

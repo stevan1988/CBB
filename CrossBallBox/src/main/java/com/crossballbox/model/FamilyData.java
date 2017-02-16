@@ -70,5 +70,14 @@ public class FamilyData implements Serializable {
 	public void setCardioIllnes(boolean cardioIllnes) {
 		this.cardioIllnes = cardioIllnes;
 	}
+	
+	public FamilyData(){};
+	
+	public FamilyData(int id, boolean diabetes, boolean obesity, boolean cardioIllnes){
+		this.id = id;
+		this.diabetes = diabetes;
+		this.obesity = obesity;
+		this.cardioIllnes = cardioIllnes;
+	};
 
 }

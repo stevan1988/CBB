@@ -2,6 +2,7 @@ package com.crossballbox.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.crossballbox.model.Programs;
 import com.crossballbox.model.TrainingProgram;
 
 public interface TrainingProgramDAO extends JpaRepository<TrainingProgram, Integer> {

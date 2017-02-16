@@ -1,6 +1,44 @@
 $(document).ready(function() {
-	$("#upload-file-input").on("change", uploadFile);
+	
+	show_suplement_info($('input[name="suplements"]:checked').val());
+	show_training_activity_info($('input[name="training_activity"]:checked').val());
+
+	var e = document.getElementById('progressList');
+       e.style.display = 'none';
+       
+     e = document.getElementById('userInfoForm');
+       e.style.display = 'none';
+       
+       addRemoveElement();
+      
+    
 });
+
+function addRemoveElement(){
+	var next = 1;
+    $(".add-more").click(function(e){
+        e.preventDefault();
+        var addto = "#field" + next;
+        var addRemove = "#field" + (next);
+        next = next + 1;
+        var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
+        var newInput = $(newIn);
+        var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
+        var removeButton = $(removeBtn);
+        $(addto).after(newInput);
+        $(addRemove).after(removeButton);
+        $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+        $("#count").val(next);  
+        
+            $('.remove-me').click(function(e){
+                e.preventDefault();
+                var fieldNum = this.id.charAt(this.id.length-1);
+                var fieldID = "#field" + fieldNum;
+                $(this).remove();
+                $(fieldID).remove();
+            });
+    });
+}
 
 function uploadFile() {
 	var token = $('#upload-file-form').find(".csrfToken").val();
@@ -20,19 +58,10 @@ function uploadFile() {
 		success : function(data) {
 			console.log(data);
 			window.location.reload();
-			// $('#user_image').reload(true);
-			// d = new Date();
-			// $("#user_image").attr('src', data+d.getTime());
 		},
 		error : function(xhr, ajaxOptions, thrownError, data) {
 			console.log(data);
-			// console.log(xhr.status);
-			// console.log(xhr);
-			// console.log(thrownError);
 			window.location.reload();
-			// $('#user_image').reload(true);
-			// d = new Date();
-			// $("#user_image").attr('src', data+d.getTime());
 		}
 	});
 }
@@ -57,18 +86,6 @@ function chooseFile() {
 	$("#imgInput").click();
 }
 
-function popup(mylink, windowname) {
-	if (!window.focus)
-		return true;
-	var href;
-	if (typeof (mylink) == 'string')
-		href = mylink;
-	else
-		href = mylink.href;
-	window.open(href, windowname, 'width=400,height=200,scrollbars=yes');
-	return false;
-}
-
 $('.toggleModal').on('click', function (e) {
 	  $('.modal').modal('show');
 	});
@@ -77,3 +94,63 @@ $('.close').on('click', function (e) {
 	$('.modal').modal('hide');
 });
 
+function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if(e.style.display == 'block')
+       e.style.display = 'none';
+    else
+       e.style.display = 'block';
+ }
+
+function show_suplement_info(flag){
+	var e1 = document.getElementById('suplement_type_text');
+	var e2 = document.getElementById('suplements_type');
+	if(flag==='no'){
+		e1.style.display = 'none';
+	    e2.style.display = 'none';
+	 }
+	 else{
+	    e1.style.display = 'block';
+	    e2.style.display = 'block';
+	 }
+}
+
+function show_training_activity_info(flag){
+	 var e1 = document.getElementById('training_activity_type');
+	 var e2 = document.getElementById('training_type_text');
+	 if(flag==='no'){
+	    e1.style.display = 'none';
+	    e2.style.display = 'none';
+	 }
+	 else{
+	    e1.style.display = 'block';
+	    e2.style.display = 'block';
+	 }
+}
+
+//changing text in drop down
+//$(function(){
+//    $("#drop-down-btn1 li a").click(function(){
+//      $(".btn:first-child").text($(this).text());
+//      $(".btn:first-child").val($(this).text());
+//
+//   });
+//});
+
+function restoreDDElement(id) {
+	var idDD = "#" + id;
+	$(idDD).show();
+}
+
+function removeDDElement(id) {
+	var idDD = "#" + id;
+	console.log('id: ' + idDD);
+	$(idDD).hide();
+}
+
+function addProgram(name) {
+
+    var row = document.getElementById("choosenTraining");
+    var x = row.insertCell(0);
+    x.innerHTML = name;
+}

@@ -20,13 +20,13 @@ public class TrainingProgram implements Serializable{
 	@Column(name="id", nullable=false)
 	private int id;
 	
-	@Column(name="name", nullable=false)
+	@Column(name="name", nullable=false, unique=true)
 	private String name;
 	
 	@Column(name="trainer")
 	private String trainer;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="trainings", nullable=false)
 	private User user;
 

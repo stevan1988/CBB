@@ -25,7 +25,7 @@ public class UserHealthyState implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	@OneToOne
 	@JoinColumn(name = "id")
 	private UserInfo userInfo;
@@ -37,7 +37,7 @@ public class UserHealthyState implements Serializable {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-	
+
 	@Column(name = "cardioIllness")
 	private boolean cardioIllness;
 
@@ -90,6 +90,20 @@ public class UserHealthyState implements Serializable {
 	}
 
 	public void setInjury(boolean injury) {
+		this.injury = injury;
+	}
+
+	public UserHealthyState() {
+
+	}
+
+	public UserHealthyState(int id, boolean cardioIllness, boolean metabolicIllness, boolean otherHealthyIssues,
+			boolean medicamentsConsumer, boolean injury) {
+		this.id = id;
+		this.cardioIllness = cardioIllness;
+		this.metabolicIllness = metabolicIllness;
+		this.otherHealthyIssues = otherHealthyIssues;
+		this.medicamentsConsumer = medicamentsConsumer;
 		this.injury = injury;
 	}
 

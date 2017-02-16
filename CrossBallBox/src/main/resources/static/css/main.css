@@ -1,3 +1,21 @@
+#drop-down-btn {
+    background-color: #000000;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 7px 2px;
+    cursor: pointer;
+}
+.dropdown-menu li:hover .sub-menu {
+    visibility: visible;
+}
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
 /* navbar */
 nav.navbar {
     margin: 0;

@@ -76,7 +76,7 @@ public class UserController {
 				copyFile(jpgFile, dstFile);
 				UserInfo userInfo = userInfoDAO.findById(userId);
 				if (userInfo == null) {
-					userInfo = new UserInfo();
+					userInfo = new UserInfo(userId);
 					userInfo.setUser(userDAO.findById(userId));
 					userDAO.findById(userId).setUserInfo(userInfo);
 					List<UserProgress> list = new ArrayList<UserProgress>();

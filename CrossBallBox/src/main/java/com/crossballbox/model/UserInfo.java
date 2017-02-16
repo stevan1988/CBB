@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
 public class UserInfo implements Serializable {
 
 	@Id
-	@GeneratedValue
+//	@GeneratedValue
 	@Column(name = "id", nullable = false)
 	private int id;
 
@@ -64,7 +64,7 @@ public class UserInfo implements Serializable {
 	private UserAdditionalInfo userAdditionalInfo;
 
 	@Column(name = "userProgress", unique = true, nullable = false)
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
 	private List<UserProgress> userProgressList;
 
 	public FamilyData getFamilyData() {
@@ -163,12 +163,19 @@ public class UserInfo implements Serializable {
 		this.imagePath = imagePath;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public UserInfo(int id){
+		this.id = id;
+	}
+	
+	public UserInfo(){
 	}
 }

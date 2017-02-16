@@ -48,13 +48,13 @@ public class User implements Serializable, Comparable<User> {
 	private String token;
 
 	@Column(name = "role")
-	private String role = "USER";
+	private String role = "ROLE_USER";
 	
 	@Lob
 	@Column(name = "user_info")
 	UserInfo userInfo;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@PrimaryKeyJoinColumn
 	public UserInfo getUserInfo() {
 		return userInfo;
@@ -65,7 +65,7 @@ public class User implements Serializable, Comparable<User> {
 	}
 
 	@Column(name = "trainings", unique = true, nullable = false)
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
 	private Set<TrainingProgram> trainings = new HashSet<TrainingProgram>(0);
 
 	//mozda na get anotacija?

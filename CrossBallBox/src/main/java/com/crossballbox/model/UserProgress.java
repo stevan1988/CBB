@@ -35,7 +35,7 @@ public class UserProgress implements Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "userProgress", nullable = false)
 	private UserInfo userInfo;
 
