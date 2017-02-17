@@ -14,13 +14,9 @@
 <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">CBB
 	Application</title>
 
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link> -->
-<!-- <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.2/fonts/glyphicons-halflings-regular.woff2"></link> -->
-<!-- <link rel="stylesheet" -->
-<!-- 	th:href="@{/bootstrap/css/bootstrap-notification.min.css}" /> -->
-<!-- <link rel="stylesheet" th:href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.2/fonts/glyphicons-halflings-regular.woff2"></link> -->
 <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/css/main.css}" />
+<link rel="stylesheet" th:href="@{/css/new-user.css}" />
 
 </head>
 <body>
@@ -38,16 +34,17 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li th:class="${navSection == 'home' ? 'active' : ''}"><a
-						th:href="@{/}">Home</a></li>
+					<li th:class="${navSection == 'home' ? 'active' : ''}">
+					<div th:if="${#authorization.expression('isAuthenticated()')}">
+					<div sec:authorize="hasRole('ADMIN')">
+						<input id="show" class="btn btn-default navbar-btn navbar-right" type="submit" data-toggle="modal" data-target="#myModal" value="Add User" />
+					</div>
+					</div></li>
 					<li th:class="${navSection == 'submit' ? 'active' : ''}"><a
 						th:href="@{/submit}">Submit</a></li>
 					<li th:class="${navSection == 'news' ? 'active' : ''}"><a
 						th:href="@{/news}">News</a></li>
-<!-- 					<li th:class="${navSection == 'programs' ? 'active' : ''}"><a -->
-<!-- 						<li th:class="dropdown-menu"><a -->
-<!-- 						th:href="@{/news}">Programs</a></li> -->
-<li><div class="dropdown">
+					<li><div class="dropdown">
   <button id="drop-down-btn" class="btn-primary dropdown-toggle btn" type="button" data-toggle="dropdown">Programs
   <span class="caret"></span></button>
 	<ul class="dropdown-menu">
@@ -63,14 +60,15 @@
 				<div th:if="!${#authorization.expression('isAuthenticated()')}">
 					<a class="btn btn-default navbar-btn navbar-right"
 						sec:authorize="!hasRole('ROLE_USER1')" th:href="@{/login}"
-						role="button" id="a">Login</a> <a
-						class="btn btn-default navbar-btn navbar-right"
+						role="button" id="a">Login</a> 
+					<a class="btn btn-default navbar-btn navbar-right"
 						sec:authorize="!hasAnyRole('ROLE_USER')" th:href="@{/signUp}"
 						role="button">Sign Up</a>
 				</div>
 				<div th:if="${#authorization.expression('isAuthenticated()')}">
 					<ul class="nav navbar-nav navbar-right">
-						<li sec:authorize="hasRole('USER')">
+					<li>
+<!-- 						<li sec:authorize="hasRole('USER')"> -->
 							<table id="top-table" class="top-table">
 								<tr>
 									<td>
@@ -102,49 +100,50 @@
 									</td>
 									<td>
 										<!--  notifikacije-->
-										<div class="dropdown">
-											<a id="dLabel" role="button" data-toggle="dropdown"
-												data-target="#" href="/page.html"> <i
-												class="glyphicon glyphicon-bell"></i>
-											</a>
+<!-- 										<div class="dropdown"> -->
+<!-- 											<a id="dLabel" role="button" data-toggle="dropdown" -->
+<!-- 												data-target="#" href="/page.html"> <i -->
+<!-- 												class="glyphicon glyphicon-bell"></i> -->
+<!-- 											</a> -->
 
-											<ul class="dropdown-menu notifications" role="menu"
-												aria-labelledby="dLabel">
+<!-- 											<ul class="dropdown-menu notifications" role="menu" -->
+<!-- 												aria-labelledby="dLabel"> -->
 
-												<div class="notification-heading">
-													<h4 class="menu-title">Notifications</h4>
-													<h4 class="menu-title pull-right">
-														View all<i class="glyphicon glyphicon-circle-arrow-right"></i>
-													</h4>
-												</div>
-												<li class="divider"></li>
-												<div class="notifications-wrapper">
-													<a class="content" href="#">
+<!-- 												<div class="notification-heading"> -->
+<!-- 													<h4 class="menu-title">Notifications</h4> -->
+<!-- 													<h4 class="menu-title pull-right"> -->
+<!-- 														View all<i class="glyphicon glyphicon-circle-arrow-right"></i> -->
+<!-- 													</h4> -->
+<!-- 												</div> -->
+<!-- 												<li class="divider"></li> -->
+<!-- 												<div class="notifications-wrapper"> -->
+<!-- 													<a class="content" href="#"> -->
 
-														<div class="notification-item">
-															<h4 class="item-title">Evaluation Deadline 1 - day
-																ago</h4>
-															<p class="item-info">Marketing 101, Video Assignment</p>
-														</div>
+<!-- 														<div class="notification-item"> -->
+<!-- 															<h4 class="item-title">Evaluation Deadline 1 - day -->
+<!-- 																ago</h4> -->
+<!-- 															<p class="item-info">Marketing 101, Video Assignment</p> -->
+<!-- 														</div> -->
 
-													</a> <a class="content" href="#">
-														<div class="notification-item">
-															<h4 class="item-title">Evaluation Deadline 1 - day
-																ago</h4>
-															<p class="item-info">Marketing 101, Video Assignment</p>
-														</div>
-													</a> 
+<!-- 													</a> <a class="content" href="#"> -->
+<!-- 														<div class="notification-item"> -->
+<!-- 															<h4 class="item-title">Evaluation Deadline 1 - day -->
+<!-- 																ago</h4> -->
+<!-- 															<p class="item-info">Marketing 101, Video Assignment</p> -->
+<!-- 														</div> -->
+<!-- 													</a>  -->
 
-												</div>
-												<li class="divider"></li>
-												<div class="notification-footer">
-													<h4 class="menu-title">
-														View all<i class="glyphicon glyphicon-circle-arrow-right"></i>
-													</h4>
-												</div>
-											</ul>
+<!-- 												</div> -->
+<!-- 												<li class="divider"></li> -->
+<!-- 												<div class="notification-footer"> -->
+<!-- 													<h4 class="menu-title"> -->
+<!-- 														View all<i class="glyphicon glyphicon-circle-arrow-right"></i> -->
+<!-- 													</h4> -->
+<!-- 												</div> -->
+<!-- 											</ul> -->
 
-										</div> <!-- kraj za notifikacije -->
+<!-- 										</div>  -->
+										<!-- kraj za notifikacije -->
 									</td>
 									<td><a th:href="@{/admin}">Admin</a></td>
 									<td>
@@ -180,13 +179,46 @@
 		</div>
 	</div>
 	
+<!-- 	modal2 -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" id="modal-dialog1">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">New User</h4>
+        </div>
+        <div class="modal-body">
+          <form th:action="@{/admin/createNewUser}" method="POST">
+          	<input type="text" name="firstName" placeholder="Firstname"/>
+          	<input type="text" name="lastName" placeholder="Lastname"/>
+          	<input type="text" name="eMail" placeholder="E-Mail"/>
+          	<input type="text" name="dateBirth" placeholder="Date Birth"/>
+          	<input type="text" name="phoneNumber" placeholder="Phone Number"/>
+          	<input type="text" name="trainingProgram" placeholder="Training Program"/>
+			<!-- hide/show -->
+			<input type="text" name="user" placeholder="Username"/>
+			<!-- same password as username -->
+<!-- 			<input type="password" name="pass" placeholder="Password"/> -->
+			<input type="submit" name="login" class="btn btn-default navbar-btn" value="Add User"/>
+		  </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+		
 	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 	<script type="text/javascript"
 		th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 		<script type="text/javascript" th:src="@{/js/user_details.js}"></script>
+		<script type="text/javascript" th:src="@{/js/new-user.js}"></script>
 
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 	<script

@@ -3,9 +3,7 @@ package com.crossballbox.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
@@ -17,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.crossballbox.dao.FamilyDataDAO;
 import com.crossballbox.dao.TrainingProgramDAO;
@@ -113,7 +112,19 @@ public class AdminController {
 		model.addAttribute("query", query);
 		return "admin/search_results1";
 	}
+	
+	@RequestMapping(value = "/user/delete", method = RequestMethod.GET)
+	public String deleteUser(Model model, @RequestParam(value = "id", required = true) String id) {
+		logger.info("delete user with id: " + id);
+		int userId = Integer.valueOf(id);
+		userDAO.delete(userId);
+		
 
+//		return "redirect:/" + search(model, "", null);
+//		return "redirect:/admin/search_results1";
+		return "redirect:/admin/search?search=";
+	}
+	
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	public String updateUserInfo(Model model, @RequestParam(value = "id", required = true) String id) {
 		logger.info("id: " + id);
@@ -159,7 +170,7 @@ public class AdminController {
 		return "admin/user_details";
 	}
 
-	@RequestMapping(value = "/createNewUser", method = RequestMethod.GET)
+	@RequestMapping(value = "/createNewUser", method = RequestMethod.POST)
 	public String updateUserInfo() {
 		// pop up window sa imenom rezimenom mailom sifrom -- kao signup
 		return null;

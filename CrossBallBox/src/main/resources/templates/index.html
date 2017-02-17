@@ -14,34 +14,35 @@
     </section>
     <div class="jumbotron">
         <div class="container">
-            <h1>Submit a talk to the CfP!</h1>
+            <h1>Welcome to CrossBallBox!</h1>
             <p>Share your passion</p>
-            <p><a class="btn btn-primary btn-lg" th:href="@{/submit}" role="button">Submit</a></p>
+            <p>
+            	<input id="show" class="btn btn-primary btn-lg" type="submit" data-toggle="modal" data-target="#myModal" value="Add New Member" /></p>
         </div>
     </div>
     <div class="container">
         <div class="page-header">
-            <h2>Latest commits</h2>
+            <h2>Training Programs</h2>
         </div>
         <div class="panel panel-success">
             <div class="panel-heading">
                 <h3 class="panel-title">Spring Framework</h3>
             </div>
-          <!--   <div class="panel-body">
-                <img height="70" width="70" th:src="${latestFrameworkCommit.committer.avatarUrl}"/>
-                <h3><a th:href="@{/news}" th:text="${latestFrameworkCommit.message}">Fix a Spring Framework issue</a></h3>
-                <p th:inline="text">Committed by [[${latestFrameworkCommit.committer.name}]]</p>
-            </div> -->
+<!--          <div class="panel-body"> -->
+<!--                 <img height="70" width="70" th:src="${latestFrameworkCommit.committer.avatarUrl}"/> -->
+<!--                 <h3><a th:href="@{/news}" th:text="${latestFrameworkCommit.message}">Fix a Spring Framework issue</a></h3> -->
+<!--                 <p th:inline="text">Committed by [[${latestFrameworkCommit.committer.name}]]</p> -->
+<!--             </div> -->
         </div>
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title">Spring Boot</h3>
             </div>
-           <!--  <div class="panel-body">
-                <img height="70" width="70" th:src="${latestBootCommit.committer.avatarUrl}"/>
-                <h3><a th:href="@{/news}" th:text="${latestBootCommit.message}">Fix a Spring Boot issue</a></h3>
-                <p th:inline="text">Committed by [[${latestBootCommit.committer.name}]]</p> 
-            </div>-->
+<!--             <div class="panel-body"> -->
+<!--                 <img height="70" width="70" th:src="${latestBootCommit.committer.avatarUrl}"/> -->
+<!--                 <h3><a th:href="@{/news}" th:text="${latestBootCommit.message}">Fix a Spring Boot issue</a></h3> -->
+<!--                 <p th:inline="text">Committed by [[${latestBootCommit.committer.name}]]</p>  -->
+<!--             </div> -->
         </div>
     </div>
 </div>
