@@ -52,7 +52,7 @@
 			 	<div id="dialog-confirm" title="Empty the recycle bin?">
       				<a class="btn btn-primary btn-xs" role="button" th:href="@{/admin/user?id=}+${user.id}">Info</a>
 <!--       				<a class="btn btn-primary btn-xs" role="button" th:href="@{/admin/user/activate?id=}+${user.id}">Activate</a> -->
-      				<a  class="btn btn-primary btn-xs dialog-confirm" role="button"
+      				<a class="btn btn-primary btn-xs dialog-confirm" role="button"
       				type="button"  data-toggle="modal" data-target="#confirm-delete" th:id="@{/admin/user/delete?id=}+${user.id}">
       				Delete</a>
     			
@@ -83,7 +83,7 @@
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default announce" data-dismiss="modal">Cancel</button>
-                    <a id="confirm-delete-btn" class="btn btn-danger btn-ok">Delete</a>
+                    <a  style="background: red; color: white;" id="confirm-delete-btn" class="btn btn-danger btn-ok">Delete</a>
                 </div>
             </div>
         </div>

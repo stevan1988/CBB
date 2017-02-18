@@ -33,15 +33,14 @@
 				<a class="navbar-brand" th:href="@{/}">CrossBallBox</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
+				<ul id="leftNavBar" class="nav navbar-nav">
 					<li th:class="${navSection == 'home' ? 'active' : ''}">
 					<div th:if="${#authorization.expression('isAuthenticated()')}">
 					<div sec:authorize="hasRole('ADMIN')">
 						<input id="show" class="btn btn-default navbar-btn navbar-right" type="submit" data-toggle="modal" data-target="#myModal" value="Add User" />
 					</div>
 					</div></li>
-					<li th:class="${navSection == 'submit' ? 'active' : ''}"><a
-						th:href="@{/submit}">Submit</a></li>
+					<li><br></br></li>
 					<li th:class="${navSection == 'news' ? 'active' : ''}"><a
 						th:href="@{/news}">News</a></li>
 					<li><div class="dropdown">
@@ -147,13 +146,13 @@
 									</td>
 									<td><a th:href="@{/admin}">Admin</a></td>
 									<td>
-										<div th:if="${#authorization.expression('isAuthenticated()')}">
-											<form th:action="@{/logout}" method="POST">
-												<input class="btn btn-default navbar-btn navbar-right"
-													type="submit" value="Logout" />
+<!-- 										<div th:if="${#authorization.expression('isAuthenticated()')}"> -->
+<!-- 											<form th:action="@{/logout}" method="POST"> -->
+<!-- 												<input class="btn btn-default navbar-btn navbar-right" -->
+<!-- 													type="submit" value="Logout" /> -->
 
-											</form>
-										</div>
+<!-- 											</form> -->
+<!-- 										</div> -->
 									</td>
 								</tr>
 							</table>
@@ -198,7 +197,7 @@
           	<input type="text" name="phoneNumber" placeholder="Phone Number"/>
           	<input type="text" name="trainingProgram" placeholder="Training Program"/>
 			<!-- hide/show -->
-			<input type="text" name="user" placeholder="Username"/>
+			<input type="text" name="username" placeholder="Username"/>
 			<!-- same password as username -->
 <!-- 			<input type="password" name="pass" placeholder="Password"/> -->
 			<input type="submit" name="login" class="btn btn-default navbar-btn" value="Add User"/>

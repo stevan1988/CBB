@@ -1,5 +1,6 @@
 package com.crossballbox.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.crossballbox.dao.FamilyDataDAO;
 import com.crossballbox.dao.TrainingProgramDAO;
@@ -118,11 +118,9 @@ public class AdminController {
 		logger.info("delete user with id: " + id);
 		int userId = Integer.valueOf(id);
 		userDAO.delete(userId);
-		
 
-//		return "redirect:/" + search(model, "", null);
-//		return "redirect:/admin/search_results1";
 		return "redirect:/admin/search?search=";
+//		return search(model, search, program);
 	}
 	
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
@@ -171,9 +169,38 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/createNewUser", method = RequestMethod.POST)
-	public String updateUserInfo() {
-		// pop up window sa imenom rezimenom mailom sifrom -- kao signup
-		return null;
+	public String newUser(Model model, @RequestParam(value = "firstName", required = true) String firstName, 
+			@RequestParam(value = "lastName", required = true) String lastName
+			, @RequestParam(value = "eMail", required = true) String eMail
+			, @RequestParam(value = "dateBirth", required = true) String dateBirth
+			, @RequestParam(value = "phoneNumber", required = true) String phoneNumber
+			, @RequestParam(value = "trainingProgram", required = true) String trainingProgram
+			, @RequestParam(value = "username", required = false) String username
+			, @RequestParam(value = "password", required = false) String password) {
+
+		password = "pass";
+		User user = new User();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.seteMail(eMail);
+		user.setUsername(username);
+		user.setPassword(password);
+		java.util.Date d = new java.util.Date();
+		user.setDateCreated(new Date(d.getTime()));
+		user.setEnabled("true");
+		UserInfo userInfo = new UserInfo();
+//		userInfo.setDateBirth(dateBirth);
+//		userInfo.setGender(gender);
+//		userInfo.setImagePath(imagePath);
+		userInfo.setPhone(phoneNumber);
+		user.setUserInfo(userInfo);
+		
+		userDAO.save(user);
+		logger.info("new user is created" + user.toString());
+		
+		
+		
+		return updateUserInfo(model, String.valueOf(user.getId()));
 	}
 
 	@RequestMapping(value = "/saveUserInfo", method = RequestMethod.POST)

@@ -13,7 +13,7 @@ $('#confirm-delete-btn').click(function(e) {
 
 	 $.get(esseyId);
 	
-	 $('table').on('click','.delete',function(){
+	 $('table').on('click',function(){
 		 $(this).parents('tr').remove();
 	 });
 	 
