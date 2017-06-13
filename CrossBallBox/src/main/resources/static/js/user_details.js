@@ -10,8 +10,6 @@ $(document).ready(function() {
        e.style.display = 'none';
        
        addRemoveElement();
-      
-    
 });
 
 function addRemoveElement(){
@@ -110,8 +108,12 @@ function show_suplement_info(flag){
 	    e2.style.display = 'none';
 	 }
 	 else{
-	    e1.style.display = 'block';
-	    e2.style.display = 'block';
+		 if(e1 !== null){
+			 e1.style.display = 'block';
+		 }
+		 if(e2 !== null){
+			 e2.style.display = 'block';
+		 }
 	 }
 }
 
@@ -154,3 +156,52 @@ function addProgram(name) {
     var x = row.insertCell(0);
     x.innerHTML = name;
 }
+
+//User Progress table
+$('#add_row').click(function() {
+	add();
+});
+
+$('#delete_row').click(function() {
+	remove();
+});
+
+function add() {
+	var table = document.getElementById("user_progress");
+    var i = table.rows.length-1;
+    var row = table.insertRow(table.rows.length);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+    var cell7 = row.insertCell(6);
+    var cell8 = row.insertCell(7);
+    var cell9 = row.insertCell(8);
+    cell1.innerHTML =  id=''+i;
+    cell2.innerHTML = "<input name='name"+i+"' type='date' placeholder='Date' class='form-control input-md' type='text' class='form-control' id='datetimepicker4' /> ";
+    cell3.innerHTML = "<input name='name"+i+"' type='text' placeholder='Body Height' class='form-control input-md' id='' /> ";
+    cell4.innerHTML = "<input name='name"+i+"' type='text' placeholder='Body Weight' class='form-control input-md'  /> ";
+    cell5.innerHTML = "<input name='name"+i+"' type='text' placeholder='BMI' class='form-control input-md'  /> ";
+    cell6.innerHTML = "<input name='name"+i+"' type='text' placeholder='total fat' class='form-control input-md'  /> ";
+    cell7.innerHTML = "<input name='name"+i+"' type='text' placeholder='Viscelar fat' class='form-control input-md'  /> ";
+    cell8.innerHTML = "<input name='name"+i+"' type='text' placeholder='Waist size' class='form-control input-md'  /> ";
+    cell9.innerHTML = "<input name='name"+i+"' type='text' placeholder='Thigh size' class='form-control input-md'  /> ";
+}
+
+function remove() {
+    var table = document.getElementById("user_progress");
+    if(table.rows.length > 2){
+    	var row = table.deleteRow(table.rows.length-1);
+    }
+}
+
+////datepicker
+//$(function () {
+//	
+//    $('#datetimepicker4').datepicker({
+//    	viewMode: 'years'
+//    });
+//});
+

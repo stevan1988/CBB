@@ -1,6 +1,7 @@
 package com.crossballbox.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,106 +23,123 @@ import javax.persistence.ManyToOne;
 @SuppressWarnings("serial")
 public class UserProgress implements Serializable {
 
-	@GeneratedValue
-	@Id
-	@Column(name = "id")
-	private int id;
+  @GeneratedValue
+  @Id
+  @Column(name = "id")
+  private int id;
 
-	public int getId() {
-		return id;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "userProgress", nullable = false)
-	private UserInfo userInfo;
+  @Column(name = "date")
+  private Date date;
 
-	public UserInfo getUserInfo() {
-		return userInfo;
-	}
+  public Date getDate() {
+    return date;
+  }
 
-	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
-	}
+  public void setDate(Date date) {
+    this.date = date;
+  }
 
-	@Column(name = "hight")
-	private double hight;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "userProgress", nullable = false)
+  private UserInfo userInfo;
 
-	@Column(name = "weigth")
-	private double weigth;
+  public UserInfo getUserInfo() {
+    return userInfo;
+  }
 
-	@Column(name = "BMI")
-	private String BMI;
+  public void setUserInfo(UserInfo userInfo) {
+    this.userInfo = userInfo;
+  }
 
-	@Column(name = "fatPercentage")
-	private double fatPercentage;
+  @Column(name = "hight")
+  private double hight;
 
-	@Column(name = "viscelar")
-	private double viscelar;
+  @Column(name = "weigth")
+  private double weigth;
 
-	@Column(name = "waist")
-	private double waist;
+  @Column(name = "BMI")
+  private String BMI;
 
-	@Column(name = "thigh")
-	private double thigh;
+  @Column(name = "fatPercentage")
+  private double fatPercentage;
 
-	public double getHight() {
-		return hight;
-	}
+  @Column(name = "viscelar")
+  private double viscelar;
 
-	public void setHight(double hight) {
-		this.hight = hight;
-	}
+  @Column(name = "waist")
+  private double waist;
 
-	public double getWeigth() {
-		return weigth;
-	}
+  @Column(name = "thigh")
+  private double thigh;
 
-	public void setWeigth(double weigth) {
-		this.weigth = weigth;
-	}
+  public double getHight() {
+    return hight;
+  }
 
-	public String getBMI() {
-		return BMI;
-	}
+  public void setHight(double hight) {
+    this.hight = hight;
+  }
 
-	public void setBMI(String bMI) {
-		BMI = bMI;
-	}
+  public double getWeigth() {
+    return weigth;
+  }
 
-	public double getFatPercentage() {
-		return fatPercentage;
-	}
+  public void setWeigth(double weigth) {
+    this.weigth = weigth;
+  }
 
-	public void setFatPercentage(double fatPercentage) {
-		this.fatPercentage = fatPercentage;
-	}
+  public String getBMI() {
+    return BMI;
+  }
 
-	public double getViscelar() {
-		return viscelar;
-	}
+  public void setBMI(String bMI) {
+    BMI = bMI;
+  }
 
-	public void setViscelar(double viscelar) {
-		this.viscelar = viscelar;
-	}
+  public double getFatPercentage() {
+    return fatPercentage;
+  }
 
-	public double getWaist() {
-		return waist;
-	}
+  public void setFatPercentage(double fatPercentage) {
+    this.fatPercentage = fatPercentage;
+  }
 
-	public void setWaist(double waist) {
-		this.waist = waist;
-	}
+  public double getViscelar() {
+    return viscelar;
+  }
 
-	public double getThigh() {
-		return thigh;
-	}
+  public void setViscelar(double viscelar) {
+    this.viscelar = viscelar;
+  }
 
-	public void setThigh(double thigh) {
-		this.thigh = thigh;
-	}
+  public double getWaist() {
+    return waist;
+  }
+
+  public void setWaist(double waist) {
+    this.waist = waist;
+  }
+
+  public double getThigh() {
+    return thigh;
+  }
+
+  public void setThigh(double thigh) {
+    this.thigh = thigh;
+  }
+
+  public UserProgress() {}
+
+  public UserProgress(int id) {
+    this.id = id;
+  }
 
 }

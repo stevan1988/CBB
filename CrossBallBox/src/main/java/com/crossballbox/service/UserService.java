@@ -88,4 +88,5 @@ public class UserService implements UserDetailsService {
 	public void addTrainngToUser(){
 		
 	}
+	
 }

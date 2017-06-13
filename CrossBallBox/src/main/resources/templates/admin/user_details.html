@@ -13,118 +13,128 @@
 		<div class="container">
 			<div class="page-header"></div>
 			<table class="table">
-			<tr><td style="width: 50%;">
-			<table>
-				<tr th:each="user : ${userInfo}">
+				<tr>
+					<td style="width: 50%;">
+						<table>
+							<tr th:each="user : ${userInfo}">
+								<td>
+									<table class="table">
+										<tbody>
+											<tr>
+												<td rowspan="4" style="width: 25%">
+													<div>
+														<img id="user_image" height="250" width="230"
+															th:src="@{../userImages/} + ${user.id} +@{.jpg}"
+															onmouseover="bigImg(this)" onmouseout="normalImg(this)"
+															onclick="chooseFile()" />
+													</div>
+
+													<div style="height: 0px; overflow: hidden">
+														<input type="file" id="imgInput" name="imgInput" />
+													</div>
+													<div>
+														<!-- Upload file form -->
+														<form id="upload-file-form" action="/user/upload_image"
+															method="POST">
+															<input type="hidden" class="csrfToken"
+																th:value="${_csrf.token}" /> <input type="hidden"
+																class="csrfHeader" th:value="${_csrf.headerName}" /> <input
+																type="hidden" name="userId" th:value="${userProfile.id}" />
+
+															<label for="upload-file-input">Upload your file:</label>
+															<input id="upload-file-input" type="file"
+																name="uploadfile" accept=".jpg" />
+														</form>
+
+													</div>
+												</td>
+												<td
+													th:text="${userProfile.firstName} + ' ' + ${userProfile.lastName}"></td>
+											</tr>
+											<tr>
+												<td>28.03.1988.</td>
+												<!-- 									<td th:text="${userInfo.dateBirth}"></td> -->
+												<!-- 									<td -->
+												<!-- 										th:text="${#dates.format(userInfo.dateBirth, 'dd-MMM-yyyy')}"></td> -->
+											</tr>
+											<tr>
+												<td th:text="${userInfo.phone}"></td>
+											</tr>
+											<tr>
+												<td th:text="${userProfile.eMail}"></td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
 					<td>
-						<table class="table">
-							<tbody>
-								<tr>
-									<td rowspan="4" style="width: 25%">
-										<div>
-											<img id="user_image" height="250" width="230"
-												th:src="@{../userImages/} + ${user.id} +@{.jpg}"
-												onmouseover="bigImg(this)" onmouseout="normalImg(this)"
-												onclick="chooseFile()" />
-										</div>
+						<table id="programs">
+							<tr>
+								<td>
+									<div class="project-list single">
+										<label for="date-started">Training Program</label>
+										<!-- 					 <input type="input" id="date-started" /> -->
 
-										<div style="height: 0px; overflow: hidden">
-											<input type="file" id="imgInput" name="imgInput" />
-										</div>
-										<div>
-											<!-- Upload file form -->
-											<form id="upload-file-form" action="/user/upload_image"
-												method="POST">
-												<input type="hidden" class="csrfToken"
-													th:value="${_csrf.token}" /> <input type="hidden"
-													class="csrfHeader" th:value="${_csrf.headerName}" /> <input
-													type="hidden" name="userId" th:value="${userProfile.id}" />
+										<div class="dropdown">
+											<button class="btn-primary dropdown-toggle btn" type="button"
+												data-toggle="dropdown">
+												Add Program <span class="caret"></span>
+											</button>
+											<table>
+												<tr id="choosenTraining">
 
-												<label for="upload-file-input">Upload your file:</label> <input
-													id="upload-file-input" type="file" name="uploadfile"
-													accept=".jpg" />
-											</form>
+													<!--     <td>Second cell</td> -->
+													<!--     <td>Third cell</td> -->
+												</tr>
+											</table>
 
+											<!-- <div class="container"> -->
+											<!-- 	<div class="row"> -->
+											<!-- 		<form method="get"> -->
+											<!-- 		<div class="form-group">	 -->
+											<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Running.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk1" id="item4" value="val1" class="hidden" autocomplete="off"/></label></div> -->
+											<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Basketball.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk2" id="item4" value="val2" class="hidden" autocomplete="off"/></label></div> -->
+											<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Football.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk3" id="item4" value="val3" class="hidden" autocomplete="off"/></label></div> -->
+											<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Soccer.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk4" id="item4" value="val4" class="hidden" autocomplete="off"/></label></div> -->
+											<!-- 		</div> -->
+											<!-- 		<input type="submit" value="Check Item" class="btn btn-success"/> -->
+
+											<!-- 		</form> -->
+											<!-- 	</div>	 -->
+											<!-- </div> -->
+
+											<!-- <div class="container"> -->
+											<!--     Icons -->
+											<!--     <span class="button-checkbox"> -->
+											<!--         <button type="button" class="btn" data-color="primary"><i class="glyphicon glyphicon-envelope"></i></button> -->
+											<!--         <input type="checkbox" class="hidden"/> -->
+											<!--     </span> -->
+											<!--     <span class="button-checkbox"> -->
+											<!--         <button type="button" class="btn" data-color="primary"><i class="glyphicon glyphicon-phone"></i></button> -->
+											<!--         <input type="checkbox" class="hidden" /> -->
+											<!--     </span> -->
+											<!-- </div> -->
+
+											<ul class="dropdown-menu" id="drop-down-btn1">
+												<li id="firstli"><button
+														onclick="removeDDElement('firstli');addProgram('Taebo');">Taebo</button></li>
+												<li id="secondli"><button
+														onclick="removeDDElement('secondli');addProgram('Crossfit');">Crossfit</button></li>
+												<li id="thirdli"><button
+														onclick="removeDDElement('thirdli');addProgram('Aerotonus');">Aerotonus</button></li>
+												<li id="fourthli"><button
+														onclick="removeDDElement('fourthli');addProgram('Total 50');">Total
+														50</button></li>
+											</ul>
 										</div>
-									</td>
-									<td
-										th:text="${userProfile.firstName} + ' ' + ${userProfile.lastName}"></td>
-								</tr>
-								<tr>
-									<td>28.03.1988.</td>
-<!-- 									<td th:text="${userInfo.dateBirth}"></td> -->
-<!-- 									<td -->
-<!-- 										th:text="${#dates.format(userInfo.dateBirth, 'dd-MMM-yyyy')}"></td> -->
-								</tr>
-								<tr>
-									<td th:text="${userInfo.phone}"></td>
-								</tr>
-								<tr>
-									<td th:text="${userProfile.eMail}"></td>
-								</tr>
-							</tbody>
+									</div>
+								</td>
+							</tr>
 						</table>
 					</td>
 				</tr>
-				</table>
-				</td>
-				<td>
-				<table id="programs">
-				<tr><td>
-					<div class="project-list single">
-					<label for="date-started">Training Program</label>
-<!-- 					 <input type="input" id="date-started" /> -->
-				
-				<div class="dropdown">
-				<button  class="btn-primary dropdown-toggle btn" type="button" data-toggle="dropdown">
-				Add Program
-  <span class="caret"></span></button>
-  <table>
-  <tr id="choosenTraining">
-  
-<!--     <td>Second cell</td> -->
-<!--     <td>Third cell</td> -->
-  </tr>
-</table>
-
-<!-- <div class="container"> -->
-<!-- 	<div class="row"> -->
-<!-- 		<form method="get"> -->
-<!-- 		<div class="form-group">	 -->
-<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Running.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk1" id="item4" value="val1" class="hidden" autocomplete="off"/></label></div> -->
-<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Basketball.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk2" id="item4" value="val2" class="hidden" autocomplete="off"/></label></div> -->
-<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Football.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk3" id="item4" value="val3" class="hidden" autocomplete="off"/></label></div> -->
-<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Soccer.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk4" id="item4" value="val4" class="hidden" autocomplete="off"/></label></div> -->
-<!-- 		</div> -->
-<!-- 		<input type="submit" value="Check Item" class="btn btn-success"/> -->
-		
-<!-- 		</form> -->
-<!-- 	</div>	 -->
-<!-- </div> -->
-
-<!-- <div class="container"> -->
-<!--     Icons -->
-<!--     <span class="button-checkbox"> -->
-<!--         <button type="button" class="btn" data-color="primary"><i class="glyphicon glyphicon-envelope"></i></button> -->
-<!--         <input type="checkbox" class="hidden"/> -->
-<!--     </span> -->
-<!--     <span class="button-checkbox"> -->
-<!--         <button type="button" class="btn" data-color="primary"><i class="glyphicon glyphicon-phone"></i></button> -->
-<!--         <input type="checkbox" class="hidden" /> -->
-<!--     </span> -->
-<!-- </div> -->
-
-<ul class="dropdown-menu" id="drop-down-btn1">
-    <li id="firstli"><button  onclick="removeDDElement('firstli');addProgram('Taebo');">Taebo</button></li>
-    <li id="secondli"><button onclick="removeDDElement('secondli');addProgram('Crossfit');">Crossfit</button></li>
-    <li id="thirdli"><button onclick="removeDDElement('thirdli');addProgram('Aerotonus');">Aerotonus</button></li>
-    <li id="fourthli"><button onclick="removeDDElement('fourthli');addProgram('Total 50');">Total 50</button></li>
-</ul>
-  </div>
-				</div>
-				</td></tr>
-				</table>
-				</td></tr>
 			</table>
 
 			<form th:action="@{/project_new}" method="post"
@@ -134,227 +144,263 @@
 						id="date-started" />
 				</div>
 			</form>
+			
+			<form th:action="@{/project_new}" method="post"
+				th:object="${project}">
+				<div class="project-list single">
+					<label for="date-started">Date started:</label> <input type="date"
+						id="date-started" />
+				</div>
+			</form>
 
 		</div>
-		<div><br></br><br></br><br></br></div>
-		<div class="container">
-		<a href="#" onclick="toggle_visibility('userInfoForm');"><span style="font-size: large">User Information</span></a>
-		<form id="userInfoForm" th:action="@{/admin/saveUserInfo}" method="post"
-			th:object="${project}">
-			<div class="container">
-				<input type="hidden" name="id" th:value="${userInfo.id}" />
-				<table class="table table-striped table-hover" id="family_table">
-					<thead>
-						<tr>
-							<td><b>Porodicni podaci</b></td>
-						</tr>
-						<tr>
-							<td>Dijabetis u porodici?</td>
-							<td><input type="radio" name="family_diabetis" class="custom-control-input" value="no"
-								th:checked="${ (familyDataInfo !=null and (familyDataInfo.diabetes == false or familyDataInfo.diabetes == 'no'))  ? 'true' : 'false'} " 
-								required="required" />
-								Ne</td>
-							<td><input type="radio" name="family_diabetis" class="custom-control-input"  value="yes"
-								th:checked="${ (familyDataInfo !=null and (familyDataInfo.diabetes == true  or familyDataInfo.diabetes == 'yes'))  ? 'true' : 'false'} " 
-								required="required"/>
-								Da</td>
-						</tr>
-						<tr>
-							<td>Gojaznost u porodici?</td>
-							<td><input type="radio" name="family_obesity" value="no"
-								th:checked="${ (familyDataInfo !=null and (familyDataInfo.obesity == false or familyDataInfo.obesity == 'no' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Ne</td>
-							<td><input type="radio" name="family_obesity" value="yes"
-								th:checked="${ (familyDataInfo !=null and (familyDataInfo.obesity == true or familyDataInfo.obesity == 'yes' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Da</td>
-						</tr>
-						<tr>
-							<td>Kardio/cerebrovaskularne bolesti u porodici?</td>
-							<td><input type="radio" name="family_cardio" value="no"
-								th:checked="${ (familyDataInfo !=null and (familyDataInfo.cardioIllnes == false or familyDataInfo.cardioIllnes == 'no' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Ne</td>
-							<td><input type="radio" name="family_cardio" value="yes"
-								th:checked="${ (familyDataInfo !=null and (familyDataInfo.cardioIllnes == true or familyDataInfo.cardioIllnes == 'yes' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Da</td>
-						</tr>
-					</thead>
-				</table>
-			</div>
-			<div class="container">
-				<table class="table table-striped table-hover" id="user_table">
-					<thead>
-						<tr>
-							<td><b>Zdravstveno stanje</b></td>
-						</tr>
-						<tr>
-							<td>Kardio/cerebrovaskularne bolesti?</td>
-							<td><input type="radio" name="user_cardio" value="no"
-								th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.cardioIllness == false or userHealthyStateInfo.cardioIllness == 'no' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Ne</td>
-							<td><input type="radio" name="user_cardio" value="yes"
-								th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.cardioIllness == true or userHealthyStateInfo.cardioIllness == 'yes' ))  ? 'true' : 'false'}" 
-								required="required"/>
-								Da</td>
-						</tr>
-						<tr>
-							<td>Metabolicke bolesti?</td>
-							<td><input type="radio" name="user_metabolic" value="no"
-								th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.metabolicIllness == false or userHealthyStateInfo.metabolicIllness == 'no' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Ne</td>
-							<td><input type="radio" name="user_metabolic" value="yes"
-								th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.metabolicIllness == true or userHealthyStateInfo.metabolicIllness == 'yes' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Da</td>
-						</tr>
-						<tr>
-							<td>Ostali zdravstveni problemi?</td>
-							<td><input type="radio" name="user_other" value="no"
-								th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.otherHealthyIssues == false or userHealthyStateInfo.otherHealthyIssues == 'no' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Ne</td>
-							<td><input type="radio" name="user_other" value="yes"
-								th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.otherHealthyIssues == true or userHealthyStateInfo.otherHealthyIssues == 'yes' )) ? 'true' : 'false'}" 
-								required="required"/>
-								Da</td>
-						</tr>
-						<tr>
-							<td>Da li pijete neku vrstu lekova?</td>
-							<td><input type="radio" name="user_medicament" value="no"
-								th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.medicamentsConsumer == false or userHealthyStateInfo.medicamentsConsumer == 'no' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Ne</td>
-							<td><input type="radio" name="user_medicament" value="yes"
-								th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.medicamentsConsumer == true or userHealthyStateInfo.medicamentsConsumer == 'yes' ))  ? 'true' : 'false'}" 
-								required="required"/>
-								Da</td>
-						</tr>
-						<tr>
-							<td>Stare ili nove povrede?</td>
-							<td><input type="radio" name="user_injuries" value="no"
-								th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.injury == false or userHealthyStateInfo.injury == 'no' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Ne</td>
-							<td><input type="radio" name="user_injuries" value="yes"
-								th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.injury == true or userHealthyStateInfo.injury == 'yes' ))  ? 'true' : 'false'}" 
-								required="required"/>
-								Da</td>
-						</tr>
-					</thead>
-				</table>
-			</div>
-			<div class="container">
-				<table class="table table-striped table-hover"
-					id="user_additional_table">
-					<thead>
-						<tr>
-							<td><b>Ostali podaci</b></td>
-						</tr>
-						<tr>
-							<td>Koliko puta dnevno jedete?</td>
-							<td><input type="text" id="eating_per_day"
-								name="eating_per_day"
-								th:value="${ (userAdditionalInfo != null ) ? userAdditionalInfo.timeOfMealPerDay : ''} " 
-								required="required" pattern="[0-9]{1,4}$"
-								oninvalid="this.setCustomValidity('Please Enter Number')" oninput="setCustomValidity('')" /></td>
-						</tr>
-						<tr>
-							<td>Koliko vode dnevno pijete(l)?</td>
-							<td><input type="text" id="wather_per_day"
-								name="wather_per_day"
-								th:value="${ (userAdditionalInfo != null ) ? userAdditionalInfo.watherLiterPerDay : ''} " 
-								required="required" pattern="[0-9]{1,4}+\.[0-9]{0,4}$"
-								oninvalid="this.setCustomValidity('Please Enter Number')" oninput="setCustomValidity('')"/></td>
-						</tr>
-						<tr>
-							<td>Da li pijete neke suplemente/protein?</td>
-							<td id="suplements_no"><input type="radio" name="suplements"
-								value="no" onclick="show_suplement_info('no');"
-								checked="checked"
-								th:checked="${ (userAdditionalInfo !=null and (userAdditionalInfo.suplementsOrProtein == false or userAdditionalInfo.suplementsOrProtein == 'no' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Ne</td>
-							<td id="suplements_yes"><input type="radio"
-								name="suplements" value="yes"
-								onclick="show_suplement_info('yes');"
-								th:checked="${ (userAdditionalInfo !=null and (userAdditionalInfo.suplementsOrProtein == true or userAdditionalInfo.suplementsOrProtein == 'yes' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Da</td>
-						</tr>
-						<tr>
-							<td id="suplement_type_text">Tip suplementa/proteina?</td>
-							<td><input type="text" id="suplements_type"
-								name="suplements_type"
-								th:value="${ (userAdditionalInfo != null ) ? userAdditionalInfo.suplementsOrProteinDescription : ''} " /></td>
-						</tr>
-						<tr>
-							<td>Da li ste fizicki aktivni?</td>
-							<td id="training_activity_no"><input type="radio" name="training_activity" value="no" onclick="show_training_activity_info('no');" th:checked="${ (userAdditionalInfo !=null and (userAdditionalInfo.physicalActivity == false or userAdditionalInfo.physicalActivity == 'no' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Ne</td>
-							<td id="training_activity_yes"><input type="radio"
-								name="training_activity" value="yes"
-								onclick="show_training_activity_info('yes');"
-								th:checked="${ (userAdditionalInfo !=null and (userAdditionalInfo.physicalActivity == true or userAdditionalInfo.physicalActivity == 'yes' ))  ? 'true' : 'false'} " 
-								required="required"/>
-								Da</td>
-						</tr>
-						<tr>
-							<td id="training_type_text">Tip treninga?</td>
-							<td><input type="text" id="training_activity_type"
-								name="training_activity_type"
-								th:value="${ (userAdditionalInfo !=null and (userAdditionalInfo != null )) ? userAdditionalInfo.physicalActivityDescription : ''} " /></td>
-						</tr>
-					</thead>
-				</table>
-			</div>
-
-			<div class="container">
-				<input class="btn btn-default navbar-btn navbar-right btn-lg btn-primary" type="submit"
-					value="Submit" th:attr="value=Save" />
-			</div>
-		</form>
+		<div>
+			<br></br> <br></br> <br></br>
 		</div>
-<div> <br></br></div>
 		<div class="container">
-			<a href="#" onclick="toggle_visibility('progressList');"><span style="font-size: large">User Progress</span></a>
-			<div id="progressList" class="container">
-				<table class="table table-striped table-hover" id="user_progress">
-					<thead>
-						<tr>
-							<td><b>Lista</b></td>
-						</tr>
-						<tr>
-							<td>Telesna Visina(cm)</td>
-						</tr>
-						<tr>
-							<td>Telesna tezina(kg)</td>
-						</tr>
-						<tr>
-							<td>BMI (body mass index)</td>
-						</tr>
-						<tr>
-							<td>% ukupne masnoce</td>
-						</tr>
-						<tr>
-							<td>Viscelarna masnoca</td>
-						</tr>
-						<tr>
-							<td>Obim struka</td>
-						</tr>
-						<tr>
-							<td>Obim butina</td>
-						</tr>
-					</thead>
-				</table>
-			</div>
+			<a href="#" onclick="toggle_visibility('userInfoForm');"><span
+				style="font-size: large">User Information</span></a>
+			<form id="userInfoForm" th:action="@{/admin/saveUserInfo}"
+				method="post" th:object="${project}">
+				<div class="container">
+					<input type="hidden" name="id" th:value="${userInfo.id}" />
+					<table class="table table-striped table-hover" id="family_table">
+						<thead>
+							<tr>
+								<td><b>Porodicni podaci</b></td>
+							</tr>
+							<tr>
+								<td>Dijabetis u porodici?</td>
+								<td><input type="radio" name="family_diabetis"
+									class="custom-control-input" value="no"
+									th:checked="${ (familyDataInfo !=null and (familyDataInfo.diabetes == false or familyDataInfo.diabetes == 'no'))  ? 'true' : 'false'} "
+									required="required" /> Ne</td>
+								<td><input type="radio" name="family_diabetis"
+									class="custom-control-input" value="yes"
+									th:checked="${ (familyDataInfo !=null and (familyDataInfo.diabetes == true  or familyDataInfo.diabetes == 'yes'))  ? 'true' : 'false'} "
+									required="required" /> Da</td>
+							</tr>
+							<tr>
+								<td>Gojaznost u porodici?</td>
+								<td><input type="radio" name="family_obesity" value="no"
+									th:checked="${ (familyDataInfo !=null and (familyDataInfo.obesity == false or familyDataInfo.obesity == 'no' ))  ? 'true' : 'false'} "
+									required="required" /> Ne</td>
+								<td><input type="radio" name="family_obesity" value="yes"
+									th:checked="${ (familyDataInfo !=null and (familyDataInfo.obesity == true or familyDataInfo.obesity == 'yes' ))  ? 'true' : 'false'} "
+									required="required" /> Da</td>
+							</tr>
+							<tr>
+								<td>Kardio/cerebrovaskularne bolesti u porodici?</td>
+								<td><input type="radio" name="family_cardio" value="no"
+									th:checked="${ (familyDataInfo !=null and (familyDataInfo.cardioIllnes == false or familyDataInfo.cardioIllnes == 'no' ))  ? 'true' : 'false'} "
+									required="required" /> Ne</td>
+								<td><input type="radio" name="family_cardio" value="yes"
+									th:checked="${ (familyDataInfo !=null and (familyDataInfo.cardioIllnes == true or familyDataInfo.cardioIllnes == 'yes' ))  ? 'true' : 'false'} "
+									required="required" /> Da</td>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div class="container">
+					<table class="table table-striped table-hover" id="user_table">
+						<thead>
+							<tr>
+								<td><b>Zdravstveno stanje</b></td>
+							</tr>
+							<tr>
+								<td>Kardio/cerebrovaskularne bolesti?</td>
+								<td><input type="radio" name="user_cardio" value="no"
+									th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.cardioIllness == false or userHealthyStateInfo.cardioIllness == 'no' ))  ? 'true' : 'false'} "
+									required="required" /> Ne</td>
+								<td><input type="radio" name="user_cardio" value="yes"
+									th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.cardioIllness == true or userHealthyStateInfo.cardioIllness == 'yes' ))  ? 'true' : 'false'}"
+									required="required" /> Da</td>
+							</tr>
+							<tr>
+								<td>Metabolicke bolesti?</td>
+								<td><input type="radio" name="user_metabolic" value="no"
+									th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.metabolicIllness == false or userHealthyStateInfo.metabolicIllness == 'no' ))  ? 'true' : 'false'} "
+									required="required" /> Ne</td>
+								<td><input type="radio" name="user_metabolic" value="yes"
+									th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.metabolicIllness == true or userHealthyStateInfo.metabolicIllness == 'yes' ))  ? 'true' : 'false'} "
+									required="required" /> Da</td>
+							</tr>
+							<tr>
+								<td>Ostali zdravstveni problemi?</td>
+								<td><input type="radio" name="user_other" value="no"
+									th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.otherHealthyIssues == false or userHealthyStateInfo.otherHealthyIssues == 'no' ))  ? 'true' : 'false'} "
+									required="required" /> Ne</td>
+								<td><input type="radio" name="user_other" value="yes"
+									th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.otherHealthyIssues == true or userHealthyStateInfo.otherHealthyIssues == 'yes' )) ? 'true' : 'false'}"
+									required="required" /> Da</td>
+							</tr>
+							<tr>
+								<td>Da li pijete neku vrstu lekova?</td>
+								<td><input type="radio" name="user_medicament" value="no"
+									th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.medicamentsConsumer == false or userHealthyStateInfo.medicamentsConsumer == 'no' ))  ? 'true' : 'false'} "
+									required="required" /> Ne</td>
+								<td><input type="radio" name="user_medicament" value="yes"
+									th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.medicamentsConsumer == true or userHealthyStateInfo.medicamentsConsumer == 'yes' ))  ? 'true' : 'false'}"
+									required="required" /> Da</td>
+							</tr>
+							<tr>
+								<td>Stare ili nove povrede?</td>
+								<td><input type="radio" name="user_injuries" value="no"
+									th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.injury == false or userHealthyStateInfo.injury == 'no' ))  ? 'true' : 'false'} "
+									required="required" /> Ne</td>
+								<td><input type="radio" name="user_injuries" value="yes"
+									th:checked="${ (userHealthyStateInfo !=null and (userHealthyStateInfo.injury == true or userHealthyStateInfo.injury == 'yes' ))  ? 'true' : 'false'}"
+									required="required" /> Da</td>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div class="container">
+					<table class="table table-striped table-hover"
+						id="user_additional_table">
+						<thead>
+							<tr>
+								<td><b>Ostali podaci</b></td>
+							</tr>
+							<tr>
+								<td>Koliko puta dnevno jedete?</td>
+								<td><input type="text" id="eating_per_day"
+									name="eating_per_day"
+									th:value="${ (userAdditionalInfo != null ) ? userAdditionalInfo.timeOfMealPerDay : ''} "
+									required="required" pattern="[0-9]{1,4}$"
+									oninvalid="this.setCustomValidity('Please Enter Number')"
+									oninput="setCustomValidity('')" /></td>
+							</tr>
+							<tr>
+								<td>Koliko vode dnevno pijete(l)?</td>
+								<td><input type="text" id="wather_per_day"
+									name="wather_per_day"
+									th:value="${ (userAdditionalInfo != null ) ? userAdditionalInfo.watherLiterPerDay : ''} "
+									required="required" pattern="[0-9]{1,4}+\.[0-9]{0,4}$"
+									oninvalid="this.setCustomValidity('Please Enter Number')"
+									oninput="setCustomValidity('')" /></td>
+							</tr>
+							<tr>
+								<td>Da li pijete neke suplemente/protein?</td>
+								<td id="suplements_no"><input type="radio"
+									name="suplements" value="no"
+									onclick="show_suplement_info('no');" checked="checked"
+									th:checked="${ (userAdditionalInfo !=null and (userAdditionalInfo.suplementsOrProtein == false or userAdditionalInfo.suplementsOrProtein == 'no' ))  ? 'true' : 'false'} "
+									required="required" /> Ne</td>
+								<td id="suplements_yes"><input type="radio"
+									name="suplements" value="yes"
+									onclick="show_suplement_info('yes');"
+									th:checked="${ (userAdditionalInfo !=null and (userAdditionalInfo.suplementsOrProtein == true or userAdditionalInfo.suplementsOrProtein == 'yes' ))  ? 'true' : 'false'} "
+									required="required" /> Da</td>
+							</tr>
+							<tr>
+								<td id="suplement_type_text">Tip suplementa/proteina?</td>
+								<td><input type="text" id="suplements_type"
+									name="suplements_type"
+									th:value="${ (userAdditionalInfo != null ) ? userAdditionalInfo.suplementsOrProteinDescription : ''} " /></td>
+							</tr>
+							<tr>
+								<td>Da li ste fizicki aktivni?</td>
+								<td id="training_activity_no"><input type="radio"
+									name="training_activity" value="no"
+									onclick="show_training_activity_info('no');"
+									th:checked="${ (userAdditionalInfo !=null and (userAdditionalInfo.physicalActivity == false or userAdditionalInfo.physicalActivity == 'no' ))  ? 'true' : 'false'} "
+									required="required" /> Ne</td>
+								<td id="training_activity_yes"><input type="radio"
+									name="training_activity" value="yes"
+									onclick="show_training_activity_info('yes');"
+									th:checked="${ (userAdditionalInfo !=null and (userAdditionalInfo.physicalActivity == true or userAdditionalInfo.physicalActivity == 'yes' ))  ? 'true' : 'false'} "
+									required="required" /> Da</td>
+							</tr>
+							<tr>
+								<td id="training_type_text">Tip treninga?</td>
+								<td><input type="text" id="training_activity_type"
+									name="training_activity_type"
+									th:value="${ (userAdditionalInfo !=null and (userAdditionalInfo != null )) ? userAdditionalInfo.physicalActivityDescription : ''} " /></td>
+							</tr>
+						</thead>
+					</table>
+				</div>
+
+				<div class="container">
+					<input
+						class="btn btn-default navbar-btn navbar-right btn-lg btn-primary"
+						type="submit" value="Submit" th:attr="value=Save" />
+				</div>
+			</form>
+		</div>
+		<div>
+			<br></br>
+		</div>
+		<div class="container">
+			<a href="#" onclick="toggle_visibility('progressList');"><span
+				style="font-size: large">User Progress</span></a>
+<form th:action="@{/admin/saveUserProgress}" method="post" th:object="${project}">
+<div class="container">
+    <div class="row clearfix">
+		<div id="progressList" class="container"> 
+			<table class="table table-striped table-hover" id="user_progress">
+				<thead>
+					<tr >
+						<th class="text-center">
+							#
+						</th>
+						<th class="text-center">
+							Date
+						</th>
+						<th class="text-center">
+							Body Height
+						</th>
+						<th class="text-center">
+							Body Weight
+						</th>
+						<th class="text-center">
+							BMI (body mass index)
+						</th>
+						<th class="text-center">
+							% total fat
+						</th>
+						<th class="text-center">
+							Visceral fat
+						</th>
+						<th class="text-center">
+							Waist size - struk
+						</th>
+						<th class="text-center">
+							Thigh size - butine
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+<!-- 					<tr id='addr0'> -->
+					<tr th:each="userProgress : ${userProgerssListInfo}"> 
+						<td th:text="${userProgress.id}"></td>
+						<td th:text="${userProgress.date}"></td>
+						<td th:text="${userProgress.hight}"></td>
+						<td th:text="${userProgress.weigth}"></td>
+						<td th:text="${userProgress.BMI}"></td>
+						<td th:text="${userProgress.fatPercentage}"></td>
+						<td th:text="${userProgress.viscelar}"></td>
+						<td th:text="${userProgress.waist}"></td>
+						<td th:text="${userProgress.thigh}"></td>
+					</tr>
+                    <tr id='addr1'></tr>
+				</tbody>
+			</table>
+			<a id="add_row" class="btn btn-info pull-left" style="color:white;">Add Row</a>
+			<a id="save_progress" class="btn btn-primary" type="submit">Save Progress</a>
+<input
+						class="btn btn-default navbar-btn navbar-right btn-lg btn-primary"
+						type="submit" value="Submit" th:attr="value=Save" />
+			<a id='delete_row' class="pull-right btn btn-danger btn-default">Delete Row</a>
 		</div>
 	</div>
+	<div class="col-xs-12" style="height:125px;"></div>
+</div>
+</form>
+		</div>
+	</div>
+	
 
 </body>
 </html>

@@ -74,7 +74,7 @@ public class HomeController {
 	public String executeLogin(@RequestParam(value = "username", required = true) String username,
 			@RequestParam(value = "password", required = true) String password) {
 
-		return "index";
+		return "redirect:/index";
 	}
 
 	@RequestMapping(value = "/signUp", method = RequestMethod.GET)
@@ -134,14 +134,46 @@ public class HomeController {
 
 		return "index";
 	}
-
+	
 	@RequestMapping("/news")
-	public String news(Model model) {
-		logger.info("Oppening news page");
+    public String news(Model model) {
+        logger.info("Oppening news page");
+
+        model.addAttribute("", "");
+        return "news";
+    }
+
+	@RequestMapping("/taebo")
+	public String taebo(Model model) {
+		logger.info("Oppening taebo page");
 
 		model.addAttribute("", "");
-		return "news";
+		return "taebo";
 	}
+	
+	@RequestMapping("/aerotonus")
+    public String aerotonus(Model model) {
+        logger.info("Oppening aerotonus page");
+
+        model.addAttribute("", "");
+        return "aerotonus";
+    }
+	
+	@RequestMapping("/total50")
+    public String total50(Model model) {
+        logger.info("Oppening total50 page");
+
+        model.addAttribute("", "");
+        return "total50";
+    }
+	
+	@RequestMapping("/crossfit")
+    public String crossfit(Model model) {
+        logger.info("Oppening crossfit page");
+
+        model.addAttribute("", "");
+        return "crossfit";
+    }
 
 	@RequestMapping("/submit")
 	public String submit(Model model) {

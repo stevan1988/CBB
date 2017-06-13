@@ -6,4 +6,5 @@ import com.crossballbox.model.UserAdditionalInfo;
 
 public interface UserAdditionalInfoDAO extends JpaRepository<UserAdditionalInfo, Integer> {
 
+  UserAdditionalInfo findById(int id);
 }

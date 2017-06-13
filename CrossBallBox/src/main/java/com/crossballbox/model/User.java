@@ -24,7 +24,7 @@ public class User implements Serializable, Comparable<User> {
 	@Column(name = "id", nullable = false)
 	private int id;
 
-	@Column(name = "username", nullable = false)
+	@Column(name = "username", nullable = false, unique=true)
 	private String username;
 	@Column(name = "password", nullable = false)
 	private String password;

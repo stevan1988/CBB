@@ -3,7 +3,9 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <link rel="icon" href="../img/favicon.png"></link>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -17,6 +19,10 @@
 <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/css/main.css}" />
 <link rel="stylesheet" th:href="@{/css/new-user.css}" />
+
+<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
 </head>
 <body>
@@ -37,27 +43,32 @@
 					<li th:class="${navSection == 'home' ? 'active' : ''}">
 					<div th:if="${#authorization.expression('isAuthenticated()')}">
 					<div sec:authorize="hasRole('ADMIN')">
+<!-- 					<div sec:authorize="hasAuthority('ADMIN')"> za ovo ne moze u bazi da stoji prefix ROLE_-->
 						<input id="show" class="btn btn-default navbar-btn navbar-right" type="submit" data-toggle="modal" data-target="#myModal" value="Add User" />
 					</div>
 					</div></li>
 					<li><br></br></li>
 					<li th:class="${navSection == 'news' ? 'active' : ''}"><a
 						th:href="@{/news}">News</a></li>
+					<li th:class="${navSection == 'news' ? 'active' : ''}"><a th:href="@{/admin/search?program=AEROTONUS}">Aerotunus</a></li>
+					<li th:class="${navSection == 'news' ? 'active' : ''}"><a th:href="@{/admin/search?program=CROSSFIT}">Crossfit</a></li>
+					<li th:class="${navSection == 'news' ? 'active' : ''}"><a th:href="@{/admin/search?program=TAEBO}">Taebo</a></li>
+					<li th:class="${navSection == 'news' ? 'active' : ''}"><a th:href="@{/admin/search?program=TOTAL50}">Total 50</a></li>
 					<li><div class="dropdown">
-  <button id="drop-down-btn" class="btn-primary dropdown-toggle btn" type="button" data-toggle="dropdown">Programs
-  <span class="caret"></span></button>
-	<ul class="dropdown-menu">
-    <li><a th:href="@{/admin/search?program=TAEBO}">Taebo</a></li>
-    <li><a th:href="@{/admin/search?program=crossfit}">Crossfit</a></li>
-    <li><a th:href="@{/admin/search?program=aerotonus}">Aerotonus</a></li>
-    <li><a th:href="@{/admin/search?program=total50}">Total 50</a></li>
-  </ul>
+<!--   <button id="drop-down-btn" class="btn-primary dropdown-toggle btn" type="button" data-toggle="dropdown">Programs -->
+<!--   <span class="caret"></span></button> -->
+<!-- 	<ul class="dropdown-menu"> -->
+<!--     <li><a th:href="@{/admin/search?program=TAEBO}">Taebo</a></li> -->
+<!--     <li><a th:href="@{/admin/search?program=crossfit}">Crossfit</a></li> -->
+<!--     <li><a th:href="@{/admin/search?program=aerotonus}">Aerotonus</a></li> -->
+<!--     <li><a th:href="@{/admin/search?program=total50}">Total 50</a></li> -->
+<!--   </ul> -->
 </div>
 </li>
 				</ul>
 
 				<div th:if="!${#authorization.expression('isAuthenticated()')}">
-					<a class="btn btn-default navbar-btn navbar-right"
+					<a class="btn btn-default navbar-btn navbar-right" style="margin-left: 10px"
 						sec:authorize="!hasRole('ROLE_USER1')" th:href="@{/login}"
 						role="button" id="a">Login</a> 
 					<a class="btn btn-default navbar-btn navbar-right"
@@ -73,7 +84,7 @@
 									<td>
 										<div>
 											<form th:action="@{/logout}" method="POST">
-												<input class="btn btn-default navbar-btn navbar-right"
+												<input class="btn btn-default navbar-btn navbar-right custom-btn-right"
 													type="submit" value="Logout" />
 											</form>
 										</div>
@@ -89,6 +100,7 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li sec:authorize="hasRole('ADMIN')">
+<!-- 						<li sec:authorize="hasAuthority('ADMIN')"> -->
 							<table id="top-table" class="top-table">
 								<tr>
 									<td>
@@ -144,6 +156,26 @@
 <!-- 										</div>  -->
 										<!-- kraj za notifikacije -->
 									</td>
+<!-- start drop down menu -->
+<td><nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    <a class="navbar-brand" href="#">SITE TITLE</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+    
+    </div><!-- /.navbar-collapse --> 
+</nav></td>
+<!-- end drop down menu -->
+									<td><span class="fa fa-user" style="font-size:36px;color:#abcb44;"></span></td>
 									<td><a th:href="@{/admin}">Admin</a></td>
 									<td>
 <!-- 										<div th:if="${#authorization.expression('isAuthenticated()')}"> -->
@@ -190,12 +222,52 @@
         </div>
         <div class="modal-body">
           <form th:action="@{/admin/createNewUser}" method="POST">
-          	<input type="text" name="firstName" placeholder="Firstname"/>
-          	<input type="text" name="lastName" placeholder="Lastname"/>
-          	<input type="text" name="eMail" placeholder="E-Mail"/>
-          	<input type="text" name="dateBirth" placeholder="Date Birth"/>
-          	<input type="text" name="phoneNumber" placeholder="Phone Number"/>
+          	<input type="text" name="firstName" placeholder="Firstname" required="required" 
+          		oninvalid="this.setCustomValidity('Please Enter First Name')" oninput="setCustomValidity('')" autofocus="autofocus"/>
+          	<input type="text" name="lastName" placeholder="Lastname" required="required" 
+          		oninvalid="this.setCustomValidity('Please Enter Last Name')" oninput="setCustomValidity('')"/>
+          	<input type="text" name="eMail" placeholder="E-Mail" required="required" 
+          		pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" oninvalid="this.setCustomValidity('Please Enter E Mail address')" oninput="setCustomValidity('')"
+          		/> 
+          		
+          		
+          		
+<!--           		<div class="input-group"> -->
+<!--    <div class="input-group-addon"> -->
+<!-- 	<span class="glyphicon glyphicon-envelope"></span>  -->
+<!--    </div> -->
+<!--    <input type="text" name="eMail" placeholder="E-Mail" required="required"  -->
+<!--           		pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" oninvalid="this.setCustomValidity('Please Enter E Mail address')" oninput="setCustomValidity('')" -->
+<!--           		/> -->
+<!--   </div> -->
+          		
+<!--    <div id="datetimepicker1" class="input-append date" style="z-index:1151 !important;"> -->
+<!--       <input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input> -->
+<input type="text" name="dateBirth" placeholder="Date Birth"/>
+<!--        <span class="input-group-addon"> -->
+<!--                         <span class="glyphicon glyphicon-calendar"></span> -->
+<!--        </span> -->
+<!--     </div> -->
+
+
+          	<input type="text" name="phoneNumber" placeholder="Phone Number" required="required"
+          		oninvalid="this.setCustomValidity('Please Enter Phone Number')" oninput="setCustomValidity('')"/>
           	<input type="text" name="trainingProgram" placeholder="Training Program"/>
+<!-- Build your select: -->
+<!-- <script type="text/javascript" src="http://davidstutz.github.io/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script> -->
+<!-- <link rel="stylesheet" href="http://davidstutz.github.io/bootstrap-multiselect/dist/css/bootstrap-multiselect.css" type="text/css"/> -->
+<!--  <select id="insightList" multiple="multiple"> -->
+<!--     <optgroup label="Group 1"> -->
+<!--       <option value="1-1">Option 1.1</option> -->
+<!--       <option value="2-1">Option 2.1</option> -->
+<!--       <option value="2-2">Option 2.2</option> -->
+<!--       <option value="2-3">Option 2.3</option> -->
+<!--     </optgroup> -->
+<!--   </select> -->
+<!--   <script id="example"> -->
+
+<!-- </script> -->
+
 			<!-- hide/show -->
 			<input type="text" name="username" placeholder="Username"/>
 			<!-- same password as username -->
@@ -223,6 +295,9 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/table_functions.js}"></script>	
+	
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 
 	<!--     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
 	<!--     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->

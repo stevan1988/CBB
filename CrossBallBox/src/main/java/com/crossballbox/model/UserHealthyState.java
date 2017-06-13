@@ -96,6 +96,10 @@ public class UserHealthyState implements Serializable {
 	public UserHealthyState() {
 
 	}
+	
+	public UserHealthyState(int id) {
+	  this.id = id;
+    }
 
 	public UserHealthyState(int id, boolean cardioIllness, boolean metabolicIllness, boolean otherHealthyIssues,
 			boolean medicamentsConsumer, boolean injury) {

@@ -3362,6 +3362,10 @@ a.btn.disabled, fieldset[disabled] a.btn {
 	pointer-events: none
 }
 
+.custom-btn-right {
+	margin-right: 15px;
+}
+
 .btn-default {
 	color: #333;
 	background-color: #fff;
@@ -4879,7 +4883,7 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
 	}
 	.navbar-right {
 		float: right !important;
-		margin-right: -15px
+		margin-right: 15px
 	}
 	.navbar-right ~.navbar-right {
 		margin-right: 0

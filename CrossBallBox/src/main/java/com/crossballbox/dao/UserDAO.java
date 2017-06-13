@@ -1,7 +1,6 @@
 package com.crossballbox.dao;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -26,6 +25,26 @@ public interface UserDAO extends JpaRepository<User, Integer> {
 	
 	List<User> findAll();
 	
+	List<User> findUsersByRole(String role);
+	
+	List<User> findUsersByTrainings(TrainingProgram trainings);
+	
+//	@Query("SELECT * FROM user u where u.role != ROLE_ADMIN") 
+//	List<User> findUsersByRole();
+	
+//	@Query("SELECT * FROM user u where u.role != ROLE_ADMIN") 
+//    List<User> findNonAdminUsersByFirstName(@Param("id") Long id);
+//	
+//	@Query("SELECT * FROM user u where u.role != ROLE_ADMIN") 
+//    List<User> findNonAdminUsersByLastName(@Param("lastname") String lastname);
+//	
+//	@Query("SELECT t FROM Todo t where t.title = ?1 AND t.description = ?2")
+//    public Optional<User> findByTitleAndDescription(String title, String description);
+	
 //	List<User> getUsersByTrainings(TrainingProgram trainings);
+	
+	     
+//	    @Query("SELECT t.title FROM Todo t where t.id = :id") 
+//	    Optional<String> findTitleById(@Param("id") Long id);
 
 }

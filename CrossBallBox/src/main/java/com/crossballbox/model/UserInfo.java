@@ -20,162 +20,172 @@ import javax.transaction.Transactional;
 @SuppressWarnings("serial")
 public class UserInfo implements Serializable {
 
-	@Id
-//	@GeneratedValue
-	@Column(name = "id", nullable = false)
-	private int id;
+  @Id
+  // @GeneratedValue
+  @Column(name = "id", nullable = false)
+  private int id;
 
-	@Column(name = "imagePath")
-	private String imagePath;
+  @Column(name = "imagePath")
+  private String imagePath;
 
-	@Lob
-	@Column(name = "user_id", nullable = false)
-	User user;
+  @Lob
+  @Column(name = "user_id", nullable = false)
+  User user;
 
-	@Column(name = "notes")
-	private String notes;
+  @Column(name = "notes")
+  private String notes;
 
-	@Column(name = "date_birth")
-	private Date dateBirth;
+  @Column(name = "date_birth")
+  private Date dateBirth;
 
-	@Column(name = "phone")
-	private String phone;
+  @Column(name = "phone")
+  private String phone;
 
-	@Lob
-	@Column(name = "changes")
-	private List<UserProgress> changes;
+  @Lob
+  @Column(name = "changes")
+  private List<UserProgress> changes;
 
-	@Column(name = "gender")
-	private Gender gender;
+  @Column(name = "gender")
+  private Gender gender;
 
-	@Column(name = "profession")
-	private String profession;
+  @Column(name = "profession")
+  private String profession;
 
-	@Lob
-	@OneToOne(mappedBy = "userInfo")
-	private FamilyData familyData;
+  @Lob
+  @OneToOne(mappedBy = "userInfo")
+  private FamilyData familyData;
 
-	@Lob
-	@OneToOne(mappedBy = "userInfo")
-	private UserHealthyState userHealthyState;
+  @Lob
+  @OneToOne(mappedBy = "userInfo")
+  private UserHealthyState userHealthyState;
 
-	@Lob
-	@OneToOne(mappedBy = "userInfo")
-	private UserAdditionalInfo userAdditionalInfo;
+  @Lob
+  @OneToOne(mappedBy = "userInfo")
+  private UserAdditionalInfo userAdditionalInfo;
 
-	@Column(name = "userProgress", unique = true, nullable = false)
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
-	private List<UserProgress> userProgressList;
+  @Column(name = "userProgress", unique = true, nullable = false)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
+  private List<UserProgress> userProgressList;
 
-	public FamilyData getFamilyData() {
-		return familyData;
-	}
+  @Column(name = "memeber_fees")
+  private Date memberFees;
 
-	public void setFamilyData(FamilyData familyData) {
-		this.familyData = familyData;
-	}
+  public Date getMemberFees() {
+    return memberFees;
+  }
 
-	public UserHealthyState getUserHealthyState() {
-		return userHealthyState;
-	}
+  public void setMemberFees(Date memberFees) {
+    this.memberFees = memberFees;
+  }
 
-	public void setUserHealthyState(UserHealthyState userHealthyState) {
-		this.userHealthyState = userHealthyState;
-	}
+  public FamilyData getFamilyData() {
+    return familyData;
+  }
 
-	public UserAdditionalInfo getUserAdditionalInfo() {
-		return userAdditionalInfo;
-	}
+  public void setFamilyData(FamilyData familyData) {
+    this.familyData = familyData;
+  }
 
-	public void setUserAdditionalInfo(UserAdditionalInfo userAdditionalInfo) {
-		this.userAdditionalInfo = userAdditionalInfo;
-	}
+  public UserHealthyState getUserHealthyState() {
+    return userHealthyState;
+  }
 
-	public List<UserProgress> getUserProgressList() {
-		return userProgressList;
-	}
+  public void setUserHealthyState(UserHealthyState userHealthyState) {
+    this.userHealthyState = userHealthyState;
+  }
 
-	public void setUserProgressList(List<UserProgress> userProgressList) {
-		this.userProgressList = userProgressList;
-	}
+  public UserAdditionalInfo getUserAdditionalInfo() {
+    return userAdditionalInfo;
+  }
 
-	public String getPhone() {
-		return phone;
-	}
+  public void setUserAdditionalInfo(UserAdditionalInfo userAdditionalInfo) {
+    this.userAdditionalInfo = userAdditionalInfo;
+  }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+  public List<UserProgress> getUserProgressList() {
+    return userProgressList;
+  }
 
-	public List<UserProgress> getChanges() {
-		return changes;
-	}
+  public void setUserProgressList(List<UserProgress> userProgressList) {
+    this.userProgressList = userProgressList;
+  }
 
-	public void setChanges(List<UserProgress> changes) {
-		this.changes = changes;
-	}
+  public String getPhone() {
+    return phone;
+  }
 
-	public Date getDateBirth() {
-		return dateBirth;
-	}
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
 
-	public void setDateBirth(Date dateBirth) {
-		this.dateBirth = dateBirth;
-	}
+  public List<UserProgress> getChanges() {
+    return changes;
+  }
 
-	public Gender getGender() {
-		return gender;
-	}
+  public void setChanges(List<UserProgress> changes) {
+    this.changes = changes;
+  }
 
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
+  public Date getDateBirth() {
+    return dateBirth;
+  }
 
-	public String getProfession() {
-		return profession;
-	}
+  public void setDateBirth(Date dateBirth) {
+    this.dateBirth = dateBirth;
+  }
 
-	public void setProfession(String profession) {
-		this.profession = profession;
-	}
+  public Gender getGender() {
+    return gender;
+  }
 
-	public int getId() {
-		return id;
-	}
+  public void setGender(Gender gender) {
+    this.gender = gender;
+  }
 
-	public String getNotes() {
-		return notes;
-	}
+  public String getProfession() {
+    return profession;
+  }
 
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
+  public void setProfession(String profession) {
+    this.profession = profession;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public String getImagePath() {
-		return imagePath;
-	}
+  public String getNotes() {
+    return notes;
+  }
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
 
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-	public User getUser() {
-		return user;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	public UserInfo(int id){
-		this.id = id;
-	}
-	
-	public UserInfo(){
-	}
+  public String getImagePath() {
+    return imagePath;
+  }
+
+  public void setImagePath(String imagePath) {
+    this.imagePath = imagePath;
+  }
+
+  @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public UserInfo(int id) {
+    this.id = id;
+  }
+
+  public UserInfo() {}
 }

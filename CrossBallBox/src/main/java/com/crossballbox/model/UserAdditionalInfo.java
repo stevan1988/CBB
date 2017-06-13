@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 @SuppressWarnings("serial")
 public class UserAdditionalInfo implements Serializable {
 
-	@GeneratedValue
+//	@GeneratedValue
 	@Id
 	@Column(name = "id")
 	private int id;
