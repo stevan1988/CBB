@@ -335,11 +335,12 @@
 		<div class="container">
 			<a href="#" onclick="toggle_visibility('progressList');"><span
 				style="font-size: large">User Progress</span></a>
-<form th:action="@{/admin/saveUserProgress}" method="post" th:object="${project}">
+<form th:action="@{/admin/saveUserProgress}" method="post" th:object="${userProgerssListInfo}"  th:modelAttribute="userProgerssListInfo">
+<input type="hidden" name="id" th:value="${userProfile.id}"></input>
 <div class="container">
     <div class="row clearfix">
 		<div id="progressList" class="container"> 
-			<table class="table table-striped table-hover" id="user_progress">
+			<table class="table table-striped table-hover" id="user_progress" style="text-align: center">
 				<thead>
 					<tr >
 						<th class="text-center">
@@ -355,7 +356,7 @@
 							Body Weight
 						</th>
 						<th class="text-center">
-							BMI (body mass index)
+							BMI
 						</th>
 						<th class="text-center">
 							% total fat
@@ -369,11 +370,11 @@
 						<th class="text-center">
 							Thigh size - butine
 						</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-<!-- 					<tr id='addr0'> -->
-					<tr th:each="userProgress : ${userProgerssListInfo}"> 
+					<tr th:each="userProgress : ${userProgerssListInfo.userProgressList}"> 
 						<td th:text="${userProgress.id}"></td>
 						<td th:text="${userProgress.date}"></td>
 						<td th:text="${userProgress.hight}"></td>
@@ -383,16 +384,20 @@
 						<td th:text="${userProgress.viscelar}"></td>
 						<td th:text="${userProgress.waist}"></td>
 						<td th:text="${userProgress.thigh}"></td>
+						<td><a href='#' class='btn-sm btn-danger btn-lg'><span class='glyphicon glyphicon-remove'></span></a></td>
 					</tr>
+					
                     <tr id='addr1'></tr>
 				</tbody>
 			</table>
-			<a id="add_row" class="btn btn-info pull-left" style="color:white;">Add Row</a>
-			<a id="save_progress" class="btn btn-primary" type="submit">Save Progress</a>
-<input
-						class="btn btn-default navbar-btn navbar-right btn-lg btn-primary"
-						type="submit" value="Submit" th:attr="value=Save" />
-			<a id='delete_row' class="pull-right btn btn-danger btn-default">Delete Row</a>
+			<button id="submit" class="btn btn-primary pull-left" type="submit" style="color:white;">Save</button>
+<!-- 			<a id="print" class="btn btn-primary pull-left" onClick="print('progressList');" style="color:white;">Print</a> -->
+<!-- 			<a id="save_progress" class="btn btn-primary" type="submit">Save Progress</a> -->
+<!-- <input -->
+<!-- 						class="btn btn-default navbar-btn navbar-right btn-lg btn-primary" -->
+<!-- 						type="submit" value="Submit" th:attr="value=Save" /> -->
+<!-- 			<a id='delete_row' class="pull-right btn btn-danger btn-default">Delete Row</a> -->
+			<a id="add_row" class='pull-right btn-sm btn-success btn-lg'><span class='glyphicon glyphicon-plus'></span></a>
 		</div>
 	</div>
 	<div class="col-xs-12" style="height:125px;"></div>

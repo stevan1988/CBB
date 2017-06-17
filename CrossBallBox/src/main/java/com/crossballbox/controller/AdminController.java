@@ -1,7 +1,6 @@
 package com.crossballbox.controller;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,9 +11,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +24,7 @@ import com.crossballbox.dao.UserAdditionalInfoDAO;
 import com.crossballbox.dao.UserDAO;
 import com.crossballbox.dao.UserHealthyStateDAO;
 import com.crossballbox.dao.UserInfoDAO;
+import com.crossballbox.dao.UserProgressDAO;
 import com.crossballbox.model.FamilyData;
 import com.crossballbox.model.Programs;
 import com.crossballbox.model.Roles;
@@ -34,6 +34,7 @@ import com.crossballbox.model.UserAdditionalInfo;
 import com.crossballbox.model.UserHealthyState;
 import com.crossballbox.model.UserInfo;
 import com.crossballbox.model.UserProgress;
+import com.crossballbox.wrapper.UserProgressListWrapper;
 
 @Controller
 @RequestMapping("/admin")
@@ -49,6 +50,9 @@ public class AdminController {
 
   @Autowired
   private FamilyDataDAO familyDataDAO;
+
+  @Autowired
+  private UserProgressDAO userProgressDAO;
 
   @Autowired
   private UserHealthyStateDAO userHealthyStateDAO;
@@ -143,33 +147,10 @@ public class AdminController {
       userInfo = new UserInfo(userId);
       userInfo.setId(userId);
       List<UserProgress> userProgressList = new ArrayList<UserProgress>();
-      userInfo.setUserProgressList(userProgressList);
-      userInfo.setUserProgressList(new ArrayList<UserProgress>());
       userInfo.setUser(user);
     } else {
       if (userInfo.getUser() == null) {
         userInfo.setUser(user);
-      }
-      if (userInfo.getUserProgressList() == null || userInfo.getUserProgressList().isEmpty()) {
-        List<UserProgress> userProgressList = new ArrayList<UserProgress>();
-        UserProgress up = new UserProgress();
-//        up.setId(userId);
-        Date date = new Date(1231231231);
-        LocalDateTime now = LocalDateTime.now();
-        up.setDate(date);
-        up.setBMI("123");
-        up.setFatPercentage(12);
-        up.setHight(123);
-        up.setThigh(321);
-        up.setUserInfo(userInfo);
-        up.setViscelar(32);
-        up.setWaist(12);
-        up.setId(12);
-        up.setWeigth(321);
-        userProgressList.add(up);
-        userProgressList.add(up);
-        userProgressList.add(up);
-        userInfo.setUserProgressList(userProgressList);
       }
     }
     model.addAttribute("userInfo", userInfo);
@@ -187,9 +168,15 @@ public class AdminController {
     model.addAttribute("familyDataInfo", userInfo.getFamilyData());
     model.addAttribute("userHealthyStateInfo", userInfo.getUserHealthyState());
     model.addAttribute("userAdditionalInfo", userInfo.getUserAdditionalInfo());
-    
-    //user progress list
-    model.addAttribute("userProgerssListInfo", userInfo.getUserProgressList());
+
+    // user progress list
+    UserProgressListWrapper userProgressistWrapper = new UserProgressListWrapper();
+
+    List<UserProgress> userProgressListByUser = userProgressDAO.findByUserInfo(userInfo);
+
+
+    userProgressistWrapper.setUserProgressList(userProgressListByUser);
+    model.addAttribute("userProgerssListInfo", userProgressistWrapper);
 
     model.addAttribute("userProfile", user);
 
@@ -222,6 +209,8 @@ public class AdminController {
       // userInfo.setGender(gender);
       // userInfo.setImagePath(imagePath);
       userInfo.setPhone(phoneNumber);
+      userInfo.setUser(user);
+      userInfoDAO.save(userInfo);
       user.setUserInfo(userInfo);
 
 
@@ -335,8 +324,8 @@ public class AdminController {
     return userAdditionalInfo;
   }
 
-  private UserInfo saveUserInfo(FamilyData familyData, UserHealthyState userHealthyState, UserAdditionalInfo userAdditionalInfo, String imagePath,
-      User user) {
+  private UserInfo saveUserInfo(FamilyData familyData, UserHealthyState userHealthyState, UserAdditionalInfo userAdditionalInfo,
+      String imagePath, User user) {
 
     int userId = user.getId();
     UserInfo userInfo = userInfoDAO.findById(userId);
@@ -348,7 +337,7 @@ public class AdminController {
     userInfo.setUserAdditionalInfo(userAdditionalInfo);
     userInfo.setUser(user);
     userInfo.setImagePath(imagePath);
-    
+
     userInfoDAO.save(userInfo);
 
     return userInfo;
@@ -359,12 +348,36 @@ public class AdminController {
     user.setUserInfo(userInfo);
     userDAO.save(user);
   }
-  
-  @RequestMapping(value="/saveUserProgress", method = RequestMethod.POST)
-  public String saveUserProgress(Model model, @RequestParam(value = "id", required = true) String id){
-    
+
+  @RequestMapping(value = "/saveUserProgress", method = RequestMethod.POST)
+  public String processQuery(Model model, @RequestParam(value = "id", required = true) String id,
+      @ModelAttribute("userProgerssListInfo") UserProgressListWrapper userProgressListWrapper) {
     logger.info("saveUserProgeress");
-    
+
+    List<UserProgress> userProgressList = userProgressListWrapper.getUserProgressList();
+
+    List<UserProgress> filteredList =
+        userProgressList.stream().filter(userProgress -> userProgress.getDate() != null).collect(Collectors.toList());
+    userProgressList = filteredList;
+
+    int userId = Integer.valueOf(id);
+    UserInfo userInfo = userInfoDAO.findById(userId);
+    if (userInfo == null) {
+      userInfo = new UserInfo();
+      userInfo.setId(userId);
+      userInfo.setUser(userDAO.getOne(userId));
+    }
+
+    userInfoDAO.save(userInfo);
+    for (UserProgress userProgress : userProgressList) {
+      // TODO: fix - for some reason first data in list is one with empty values
+      if (userProgress == null || userProgress.getDate() == null) {
+      } else {
+        userProgress.setUserInfo(userInfo);
+        userProgressDAO.save(userProgress);
+      }
+    }
+
     return "redirect:/admin/user?id=" + id + "#";
   }
 
@@ -400,7 +413,7 @@ public class AdminController {
         saveUserAditionalInfo(userId, watherPerDay, eatingPerDay, suplements, trainingActivity, suplementsType, trainingActivityType);
 
     User user = userDAO.findById(userId);
-    //TODO: fix imagePath
+    // TODO: fix imagePath
     UserInfo userInfo = saveUserInfo(familyData, userHealthyState, userAdditionalInfo, "imagePath", user);
 
     saveUser(userId, userInfo);

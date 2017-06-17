@@ -80,12 +80,7 @@ public class UserController {
 					userInfo.setUser(userDAO.findById(userId));
 					userDAO.findById(userId).setUserInfo(userInfo);
 					List<UserProgress> list = new ArrayList<UserProgress>();
-					userInfo.setUserProgressList(list);
 				} else {
-					if (userInfo.getUserProgressList().equals(null)) {
-						List<UserProgress> list = new ArrayList<UserProgress>();
-						userInfo.setUserProgressList(list);
-					}
 				}
 				String dstRelativePath = null;
 				if (dstFile.getCanonicalPath().contains(configurationUtils.getFileDownloadPath().toString())) {

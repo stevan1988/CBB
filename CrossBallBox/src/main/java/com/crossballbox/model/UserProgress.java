@@ -20,8 +20,12 @@ import javax.persistence.ManyToOne;
  *         </p>
  */
 @Entity
-@SuppressWarnings("serial")
 public class UserProgress implements Serializable {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 6539159474684677701L;
 
   @GeneratedValue
   @Id
@@ -48,7 +52,7 @@ public class UserProgress implements Serializable {
   }
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "userProgress", nullable = false)
+  @JoinColumn(name = "userProgress")
   private UserInfo userInfo;
 
   public UserInfo getUserInfo() {

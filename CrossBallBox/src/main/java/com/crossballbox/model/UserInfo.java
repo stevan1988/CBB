@@ -2,23 +2,24 @@ package com.crossballbox.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.transaction.Transactional;
 
 @Entity
 @Transactional
-@SuppressWarnings("serial")
 public class UserInfo implements Serializable {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 5089797229581520127L;
 
   @Id
   // @GeneratedValue
@@ -41,10 +42,6 @@ public class UserInfo implements Serializable {
   @Column(name = "phone")
   private String phone;
 
-  @Lob
-  @Column(name = "changes")
-  private List<UserProgress> changes;
-
   @Column(name = "gender")
   private Gender gender;
 
@@ -63,9 +60,10 @@ public class UserInfo implements Serializable {
   @OneToOne(mappedBy = "userInfo")
   private UserAdditionalInfo userAdditionalInfo;
 
-  @Column(name = "userProgress", unique = true, nullable = false)
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
-  private List<UserProgress> userProgressList;
+//  @Column(name = "userProgress", length = Integer.MAX_VALUE - 1)
+////  @OneToMany(fetch = FetchType.EAGER, mappedBy = "id") -- for now without second table - user_progress
+////  private List<UserProgress> userProgressList;
+//  private byte[] userProgressList;
 
   @Column(name = "memeber_fees")
   private Date memberFees;
@@ -102,13 +100,30 @@ public class UserInfo implements Serializable {
     this.userAdditionalInfo = userAdditionalInfo;
   }
 
-  public List<UserProgress> getUserProgressList() {
-    return userProgressList;
-  }
+//  @Lob
+//  @Column(name = "members", length = Integer.MAX_VALUE - 1)
+//  private byte[] getFamilyMembersAsByteArray() { // not exposed
+//      return userProgressList;
+//  }
+//
+//  private void setFamilyMembersAsByteArray(byte[] familyMembersAsByteArray) { // not exposed
+//      this.userProgressList = familyMembersAsByteArray;
+//  }
 
-  public void setUserProgressList(List<UserProgress> userProgressList) {
-    this.userProgressList = userProgressList;
-  }
+  
+//  @SuppressWarnings("unchecked")
+//  @Transient
+//  public List<UserProgress> getUserProgressList() {
+//    return (List<UserProgress>) SerializationUtils.deserialize(userProgressList);
+//  }
+//  
+//  public void saveUserProgressList(List<UserProgress> userProgressList) {
+//    this.userProgressList = SerializationUtils.serialize((Serializable) userProgressList);
+//}
+
+//  public void setUserProgressList(byte[] userProgressList) {
+//    this.userProgressList = userProgressList;
+//  }
 
   public String getPhone() {
     return phone;
@@ -116,14 +131,6 @@ public class UserInfo implements Serializable {
 
   public void setPhone(String phone) {
     this.phone = phone;
-  }
-
-  public List<UserProgress> getChanges() {
-    return changes;
-  }
-
-  public void setChanges(List<UserProgress> changes) {
-    this.changes = changes;
   }
 
   public Date getDateBirth() {

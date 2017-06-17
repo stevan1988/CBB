@@ -163,8 +163,22 @@ $('#add_row').click(function() {
 });
 
 $('#delete_row').click(function() {
+	alert('test');
 	remove();
 });
+
+function print(el){
+	alert('print');
+	var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+
+}
 
 function add() {
 	var table = document.getElementById("user_progress");
@@ -179,15 +193,17 @@ function add() {
     var cell7 = row.insertCell(6);
     var cell8 = row.insertCell(7);
     var cell9 = row.insertCell(8);
+    var cell10 = row.insertCell(9);
     cell1.innerHTML =  id=''+i;
-    cell2.innerHTML = "<input name='name"+i+"' type='date' placeholder='Date' class='form-control input-md' type='text' class='form-control' id='datetimepicker4' /> ";
-    cell3.innerHTML = "<input name='name"+i+"' type='text' placeholder='Body Height' class='form-control input-md' id='' /> ";
-    cell4.innerHTML = "<input name='name"+i+"' type='text' placeholder='Body Weight' class='form-control input-md'  /> ";
-    cell5.innerHTML = "<input name='name"+i+"' type='text' placeholder='BMI' class='form-control input-md'  /> ";
-    cell6.innerHTML = "<input name='name"+i+"' type='text' placeholder='total fat' class='form-control input-md'  /> ";
-    cell7.innerHTML = "<input name='name"+i+"' type='text' placeholder='Viscelar fat' class='form-control input-md'  /> ";
-    cell8.innerHTML = "<input name='name"+i+"' type='text' placeholder='Waist size' class='form-control input-md'  /> ";
-    cell9.innerHTML = "<input name='name"+i+"' type='text' placeholder='Thigh size' class='form-control input-md'  /> ";
+    cell2.innerHTML = "<input name='userProgressList["+i+"].date' type='date' placeholder='Date' class='form-control input-md' type='text' class='form-control' id='datetimepicker4' /> ";
+    cell3.innerHTML = "<input name='userProgressList["+i+"].hight' type='text' placeholder='Body Height' class='form-control input-md' id='' /> ";
+    cell4.innerHTML = "<input name='userProgressList["+i+"].weigth' type='text' placeholder='Body Weight' class='form-control input-md'  /> ";
+    cell5.innerHTML = "<input name='userProgressList["+i+"].BMI' type='text' placeholder='BMI' class='form-control input-md'  /> ";
+    cell6.innerHTML = "<input name='userProgressList["+i+"].fatPercentage' type='text' placeholder='total fat' class='form-control input-md'  /> ";
+    cell7.innerHTML = "<input name='userProgressList["+i+"].viscelar' type='text' placeholder='Viscelar fat' class='form-control input-md'  /> ";
+    cell8.innerHTML = "<input name='userProgressList["+i+"].waist' type='text' placeholder='Waist size' class='form-control input-md'  /> ";
+    cell9.innerHTML = "<input name='userProgressList["+i+"].thigh' type='text' placeholder='Thigh size' class='form-control input-md'  /> ";
+    cell10.innerHTML = "<a id='delete_row' class='btn-sm btn-danger btn-lg'><span class='glyphicon glyphicon-remove'></span></a>"
 }
 
 function remove() {
@@ -196,12 +212,3 @@ function remove() {
     	var row = table.deleteRow(table.rows.length-1);
     }
 }
-
-////datepicker
-//$(function () {
-//	
-//    $('#datetimepicker4').datepicker({
-//    	viewMode: 'years'
-//    });
-//});
-
