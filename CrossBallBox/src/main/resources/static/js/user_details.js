@@ -38,35 +38,35 @@ function addRemoveElement(){
     });
 }
 
-function uploadFile() {
-	var token = $('#upload-file-form').find(".csrfToken").val();
-	var header = $('#upload-file-form').find(".csrfHeader").val();
-	$.ajax({
-		url : "/user/upload_image",
-		type : "POST",
-		data : new FormData($("#upload-file-form")[0]),
-		enctype : 'multipart/form-data',
-		processData : false,
-		contentType : false,
-		cache : false,
-		dataType : "json",
-		beforeSend : function(xhr) {
-			xhr.setRequestHeader(header, token);
-		},
-		success : function(data) {
-			console.log(data);
-			window.location.reload();
-		},
-		error : function(xhr, ajaxOptions, thrownError, data) {
-			console.log(data);
-			window.location.reload();
-		}
-	});
-}
-
-$('#uploadBtn').click(function() {
-	uploadFile
-});
+//function uploadFile() {
+//	var token = $('#upload-file-form').find(".csrfToken").val();
+//	var header = $('#upload-file-form').find(".csrfHeader").val();
+//	$.ajax({
+//		url : "/user/upload_image",
+//		type : "POST",
+//		data : new FormData($("#upload-file-form")[0]),
+//		enctype : 'multipart/form-data',
+//		processData : false,
+//		contentType : false,
+//		cache : false,
+//		dataType : "json",
+//		beforeSend : function(xhr) {
+//			xhr.setRequestHeader(header, token);
+//		},
+//		success : function(data) {
+//			console.log(data);
+//			window.location.reload();
+//		},
+//		error : function(xhr, ajaxOptions, thrownError, data) {
+//			console.log(data);
+//			window.location.reload();
+//		}
+//	});
+//}
+//
+//$('#uploadBtn').click(function() {
+//	uploadFile
+//});
 
 // <!-- end of upload -->
 
@@ -116,6 +116,25 @@ function show_suplement_info(flag){
 		 }
 	 }
 }
+
+/* attach a submit handler to the form */
+//$("#member-fees").submit(function(event) {
+//
+//  /* stop form from submitting normally */
+//  event.preventDefault();
+//
+//  /* get the action attribute from the <form action=""> element */
+//  var $form = $( this ),
+//      url = $form.attr( 'action' );
+//
+//  /* Send the data using post with element id name and name2*/
+//  var posting = $.post( url, { id: $('#id').val(), date: $('#date-started').val() } );
+//
+//  /* Alerts the results */
+//  posting.done(function( data ) {
+//    alert('success');
+//  });
+//});
 
 function show_training_activity_info(flag){
 	 var e1 = document.getElementById('training_activity_type');

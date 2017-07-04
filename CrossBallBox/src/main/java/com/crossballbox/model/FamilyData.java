@@ -13,7 +13,6 @@ import javax.persistence.OneToOne;
 @SuppressWarnings("serial")
 public class FamilyData implements Serializable {
 
-	@GeneratedValue
 	@Id
 	@Column(name = "id")
 	private int id;

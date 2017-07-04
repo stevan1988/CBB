@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.crossballbox.model.Programs;
 import com.crossballbox.model.UserInfo;
-import com.crossballbox.model.UserProgress;
 
 @Repository
 public interface UserInfoDAO extends JpaRepository<UserInfo, Integer> {
@@ -21,6 +21,8 @@ public interface UserInfoDAO extends JpaRepository<UserInfo, Integer> {
 	@Transactional
 	@Query("update UserInfo u set u.imagePath = ?1 where u.id = ?2")
 	int setImageForUser(String imagePath, int id);
+	
+	List<UserInfo> findUsersByTraining(Programs trainings);
 	
 //	List<UserProgress> getUserProgress
 	

@@ -1,7 +1,7 @@
 package com.crossballbox.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.transaction.Transactional;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Transactional
@@ -37,8 +39,12 @@ public class UserInfo implements Serializable {
   @Column(name = "notes")
   private String notes;
 
+  @Column(name = "training")
+  private Programs training;
+
   @Column(name = "date_birth")
-  private Date dateBirth;
+  @DateTimeFormat(pattern = "dd/MM/yyyy")
+  private LocalDate dateBirth;
 
   @Column(name = "phone")
   private String phone;
@@ -61,45 +67,51 @@ public class UserInfo implements Serializable {
   @OneToOne(mappedBy = "userInfo")
   private UserAdditionalInfo userAdditionalInfo;
 
+  @Column(name = "memeber_fees")
+  private LocalDate memberFees;
+
+  public UserInfo() {}
+
   // @Column(name = "userProgress", length = Integer.MAX_VALUE - 1)
   //// @OneToMany(fetch = FetchType.EAGER, mappedBy = "id") -- for now without second table -
   // user_progress
   //// private List<UserProgress> userProgressList;
   // private byte[] userProgressList;
 
-  @Column(name = "memeber_fees")
-  private Date memberFees;
-
-  public Date getMemberFees() {
-    return memberFees;
+  public UserInfo(int id) {
+    this.id = id;
   }
 
-  public void setMemberFees(Date memberFees) {
-    this.memberFees = memberFees;
+  public LocalDate getDateBirth() {
+    return dateBirth;
   }
 
   public FamilyData getFamilyData() {
     return familyData;
   }
 
-  public void setFamilyData(FamilyData familyData) {
-    this.familyData = familyData;
+  public Gender getGender() {
+    return gender;
   }
 
-  public UserHealthyState getUserHealthyState() {
-    return userHealthyState;
+  public int getId() {
+    return id;
   }
 
-  public void setUserHealthyState(UserHealthyState userHealthyState) {
-    this.userHealthyState = userHealthyState;
+  public String getImagePath() {
+    return imagePath;
   }
 
-  public UserAdditionalInfo getUserAdditionalInfo() {
-    return userAdditionalInfo;
+  public LocalDate getMemberFees() {
+    return memberFees;
   }
 
-  public void setUserAdditionalInfo(UserAdditionalInfo userAdditionalInfo) {
-    this.userAdditionalInfo = userAdditionalInfo;
+  public String getNotes() {
+    return notes;
+  }
+
+  public String getPhone() {
+    return phone;
   }
 
   // @Lob
@@ -127,60 +139,12 @@ public class UserInfo implements Serializable {
   // this.userProgressList = userProgressList;
   // }
 
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public Date getDateBirth() {
-    return dateBirth;
-  }
-
-  public void setDateBirth(Date dateBirth) {
-    this.dateBirth = dateBirth;
-  }
-
-  public Gender getGender() {
-    return gender;
-  }
-
-  public void setGender(Gender gender) {
-    this.gender = gender;
-  }
-
   public String getProfession() {
     return profession;
   }
 
-  public void setProfession(String profession) {
-    this.profession = profession;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  public String getNotes() {
-    return notes;
-  }
-
-  public void setNotes(String notes) {
-    this.notes = notes;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getImagePath() {
-    return imagePath;
-  }
-
-  public void setImagePath(String imagePath) {
-    this.imagePath = imagePath;
+  public Programs getTraining() {
+    return training;
   }
 
   @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
@@ -188,13 +152,63 @@ public class UserInfo implements Serializable {
     return user;
   }
 
+  public UserAdditionalInfo getUserAdditionalInfo() {
+    return userAdditionalInfo;
+  }
+
+  public UserHealthyState getUserHealthyState() {
+    return userHealthyState;
+  }
+
+  public void setDateBirth(LocalDate dateBirth) {
+    this.dateBirth = dateBirth;
+  }
+
+  public void setFamilyData(FamilyData familyData) {
+    this.familyData = familyData;
+  }
+
+  public void setGender(Gender gender) {
+    this.gender = gender;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setImagePath(String imagePath) {
+    this.imagePath = imagePath;
+  }
+
+  public void setMemberFees(LocalDate memberFees) {
+    this.memberFees = memberFees;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public void setProfession(String profession) {
+    this.profession = profession;
+  }
+
+  public void setTraining(Programs training) {
+    this.training = training;
+  }
+
   public void setUser(User user) {
     this.user = user;
   }
 
-  public UserInfo(int id) {
-    this.id = id;
+  public void setUserAdditionalInfo(UserAdditionalInfo userAdditionalInfo) {
+    this.userAdditionalInfo = userAdditionalInfo;
   }
 
-  public UserInfo() {}
+  public void setUserHealthyState(UserHealthyState userHealthyState) {
+    this.userHealthyState = userHealthyState;
+  }
 }

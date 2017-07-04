@@ -4,6 +4,10 @@
 	layout:decorator="layouts/main">
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" th:src="@{/js/user_details.js}"></script>
+<link href="css/bootstrap-switch/bootstrap-switch.css" rel="stylesheet" />
+<link rel="stylesheet" th:href="@{/css/user-details.css}" />
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
 <head>
 <title>Search results</title>
 </head>
@@ -33,17 +37,15 @@
 														<input type="file" id="imgInput" name="imgInput" />
 													</div>
 													<div>
-														<!-- Upload file form -->
-														<form id="upload-file-form" action="/user/upload_image"
-															method="POST">
-															<input type="hidden" class="csrfToken"
-																th:value="${_csrf.token}" /> <input type="hidden"
-																class="csrfHeader" th:value="${_csrf.headerName}" /> <input
-																type="hidden" name="userId" th:value="${userProfile.id}" />
-
-															<label for="upload-file-input">Upload your file:</label>
-															<input id="upload-file-input" type="file"
-																name="uploadfile" accept=".jpg" />
+														<!-- Upload file form  -->
+														<form id="upload_image" th:action="@{/admin/upload_image}"
+															method="post" th:object="${project}">
+															<input type="hidden" name="userId"
+																th:value="${userProfile.id}" /> 
+															<label for="upload-file-input">Upload your file:</label> 
+															<input id="upload-file-input" type="file" name="uploadfile" accept=".jpg" />
+															 <input class="btn btn-default navbar-btn btn-primary"
+																type="submit" value="Save Image" />
 														</form>
 
 													</div>
@@ -52,13 +54,11 @@
 													th:text="${userProfile.firstName} + ' ' + ${userProfile.lastName}"></td>
 											</tr>
 											<tr>
-												<td>28.03.1988.</td>
-												<!-- 									<td th:text="${userInfo.dateBirth}"></td> -->
-												<!-- 									<td -->
-												<!-- 										th:text="${#dates.format(userInfo.dateBirth, 'dd-MMM-yyyy')}"></td> -->
+												<td th:text="${userProfile.userInfo.dateBirth}"></td>
+
 											</tr>
 											<tr>
-												<td th:text="${userInfo.phone}"></td>
+												<td th:text="${userProfile.userInfo.phone}"></td>
 											</tr>
 											<tr>
 												<td th:text="${userProfile.eMail}"></td>
@@ -75,60 +75,9 @@
 								<td>
 									<div class="project-list single">
 										<label for="date-started">Training Program</label>
-										<!-- 					 <input type="input" id="date-started" /> -->
-
-										<div class="dropdown">
-											<button class="btn-primary dropdown-toggle btn" type="button"
-												data-toggle="dropdown">
-												Add Program <span class="caret"></span>
-											</button>
-											<table>
-												<tr id="choosenTraining">
-
-													<!--     <td>Second cell</td> -->
-													<!--     <td>Third cell</td> -->
-												</tr>
-											</table>
-
-											<!-- <div class="container"> -->
-											<!-- 	<div class="row"> -->
-											<!-- 		<form method="get"> -->
-											<!-- 		<div class="form-group">	 -->
-											<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Running.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk1" id="item4" value="val1" class="hidden" autocomplete="off"/></label></div> -->
-											<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Basketball.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk2" id="item4" value="val2" class="hidden" autocomplete="off"/></label></div> -->
-											<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Football.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk3" id="item4" value="val3" class="hidden" autocomplete="off"/></label></div> -->
-											<!-- 		<div class="col-md-3"><label class="btn btn-primary"><img src="http://content.nike.com/content/dam/one-nike/globalAssets/menu_header_images/OneNike_Global_Nav_Icons_Soccer.png" alt="..." class="img-thumbnail img-check"/><input type="checkbox" name="chk4" id="item4" value="val4" class="hidden" autocomplete="off"/></label></div> -->
-											<!-- 		</div> -->
-											<!-- 		<input type="submit" value="Check Item" class="btn btn-success"/> -->
-
-											<!-- 		</form> -->
-											<!-- 	</div>	 -->
-											<!-- </div> -->
-
-											<!-- <div class="container"> -->
-											<!--     Icons -->
-											<!--     <span class="button-checkbox"> -->
-											<!--         <button type="button" class="btn" data-color="primary"><i class="glyphicon glyphicon-envelope"></i></button> -->
-											<!--         <input type="checkbox" class="hidden"/> -->
-											<!--     </span> -->
-											<!--     <span class="button-checkbox"> -->
-											<!--         <button type="button" class="btn" data-color="primary"><i class="glyphicon glyphicon-phone"></i></button> -->
-											<!--         <input type="checkbox" class="hidden" /> -->
-											<!--     </span> -->
-											<!-- </div> -->
-
-											<ul class="dropdown-menu" id="drop-down-btn1">
-												<li id="firstli"><button
-														onclick="removeDDElement('firstli');addProgram('Taebo');">Taebo</button></li>
-												<li id="secondli"><button
-														onclick="removeDDElement('secondli');addProgram('Crossfit');">Crossfit</button></li>
-												<li id="thirdli"><button
-														onclick="removeDDElement('thirdli');addProgram('Aerotonus');">Aerotonus</button></li>
-												<li id="fourthli"><button
-														onclick="removeDDElement('fourthli');addProgram('Total 50');">Total
-														50</button></li>
-											</ul>
-										</div>
+										<h3><p th:text="${userProfile.userInfo.training}"></p></h3>
+										<label id="date-started"
+											th:value="${userProfile.userInfo.training}"></label>
 									</div>
 								</td>
 							</tr>
@@ -137,21 +86,18 @@
 				</tr>
 			</table>
 
-			<form th:action="@{/project_new}" method="post"
-				th:object="${project}">
+			<form id="member-fees" th:action="@{/admin/setMemberFees}"
+				method="post" th:object="${project}">
 				<div class="project-list single">
-					<label for="date-started">Date started:</label> <input type="date"
-						id="date-started" />
+					<input type="hidden" name="id" th:value="${userInfo.id}" /> <label
+						for="date-started">Last member fees paid:</label> <input
+						name="date" type="date" id="date-started"
+						th:value="${userInfo.memberFees}" /> <input
+						class="btn btn-default navbar-btn btn-primary" type="submit"
+						value="Submit" th:attr="value=Save" />
 				</div>
 			</form>
-			
-			<form th:action="@{/project_new}" method="post"
-				th:object="${project}">
-				<div class="project-list single">
-					<label for="date-started">Date started:</label> <input type="date"
-						id="date-started" />
-				</div>
-			</form>
+
 
 		</div>
 		<div>
@@ -171,14 +117,21 @@
 							</tr>
 							<tr>
 								<td>Dijabetis u porodici?</td>
-								<td><input type="radio" name="family_diabetis"
-									class="custom-control-input" value="no"
-									th:checked="${ (familyDataInfo !=null and (familyDataInfo.diabetes == false or familyDataInfo.diabetes == 'no'))  ? 'true' : 'false'} "
-									required="required" /> Ne</td>
-								<td><input type="radio" name="family_diabetis"
-									class="custom-control-input" value="yes"
-									th:checked="${ (familyDataInfo !=null and (familyDataInfo.diabetes == true  or familyDataInfo.diabetes == 'yes'))  ? 'true' : 'false'} "
-									required="required" /> Da</td>
+
+								<td>
+									<div class="checkbox checkbox-primary">
+										<input type="radio" name="family_diabetis"
+											class="custom-control-input option-input radio" value="no"
+											th:checked="${ (familyDataInfo !=null and (familyDataInfo.diabetes == false or familyDataInfo.diabetes == 'no'))  ? 'true' : 'false'} "
+											required="required" /> Ne
+									</div>
+								</td>
+								<td><div class="checkbox checkbox-primary">
+										<input type="radio" name="family_diabetis"
+											class="custom-control-input option-input radio" value="yes"
+											th:checked="${ (familyDataInfo !=null and (familyDataInfo.diabetes == true  or familyDataInfo.diabetes == 'yes'))  ? 'true' : 'false'} "
+											required="required" /> Da
+									</div></td>
 							</tr>
 							<tr>
 								<td>Gojaznost u porodici?</td>
@@ -335,77 +288,66 @@
 		<div class="container">
 			<a href="#" onclick="toggle_visibility('progressList');"><span
 				style="font-size: large">User Progress</span></a>
-<form th:action="@{/admin/saveUserProgress}" method="post" th:object="${userProgerssListInfo}"  th:modelAttribute="userProgerssListInfo">
-<input type="hidden" name="id" th:value="${userProfile.id}"></input>
-<div class="container">
-    <div class="row clearfix">
-		<div id="progressList" class="container"> 
-			<table class="table table-striped table-hover" id="user_progress" style="text-align: center">
-				<thead>
-					<tr >
-						<th class="text-center">
-							#
-						</th>
-						<th class="text-center">
-							Date
-						</th>
-						<th class="text-center">
-							Body Height
-						</th>
-						<th class="text-center">
-							Body Weight
-						</th>
-						<th class="text-center">
-							BMI
-						</th>
-						<th class="text-center">
-							% total fat
-						</th>
-						<th class="text-center">
-							Visceral fat
-						</th>
-						<th class="text-center">
-							Waist size - struk
-						</th>
-						<th class="text-center">
-							Thigh size - butine
-						</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="userProgress : ${userProgerssListInfo.userProgressList}"> 
-						<td th:text="${userProgress.id}"></td>
-						<td th:text="${userProgress.date}"></td>
-						<td th:text="${userProgress.hight}"></td>
-						<td th:text="${userProgress.weigth}"></td>
-						<td th:text="${userProgress.BMI}"></td>
-						<td th:text="${userProgress.fatPercentage}"></td>
-						<td th:text="${userProgress.viscelar}"></td>
-						<td th:text="${userProgress.waist}"></td>
-						<td th:text="${userProgress.thigh}"></td>
-						<td><a href='#' class='btn-sm btn-danger btn-lg'><span class='glyphicon glyphicon-remove'></span></a></td>
-					</tr>
-					
-                    <tr id='addr1'></tr>
-				</tbody>
-			</table>
-			<button id="submit" class="btn btn-primary pull-left" type="submit" style="color:white;">Save</button>
-<!-- 			<a id="print" class="btn btn-primary pull-left" onClick="print('progressList');" style="color:white;">Print</a> -->
-<!-- 			<a id="save_progress" class="btn btn-primary" type="submit">Save Progress</a> -->
-<!-- <input -->
-<!-- 						class="btn btn-default navbar-btn navbar-right btn-lg btn-primary" -->
-<!-- 						type="submit" value="Submit" th:attr="value=Save" /> -->
-<!-- 			<a id='delete_row' class="pull-right btn btn-danger btn-default">Delete Row</a> -->
-			<a id="add_row" class='pull-right btn-sm btn-success btn-lg'><span class='glyphicon glyphicon-plus'></span></a>
+			<form th:action="@{/admin/saveUserProgress}" method="post"
+				th:object="${userProgerssListInfo}"
+				th:modelAttribute="userProgerssListInfo">
+				<input type="hidden" name="id" th:value="${userProfile.id}"></input>
+				<div class="container">
+					<div class="row clearfix">
+						<div id="progressList" class="container">
+							<table class="table table-striped table-hover" id="user_progress"
+								style="text-align: center">
+								<thead>
+									<tr>
+										<th class="text-center">#</th>
+										<th class="text-center">Date</th>
+										<th class="text-center">Body Height</th>
+										<th class="text-center">Body Weight</th>
+										<th class="text-center">BMI</th>
+										<th class="text-center">% total fat</th>
+										<th class="text-center">Visceral fat</th>
+										<th class="text-center">Waist size - struk</th>
+										<th class="text-center">Thigh size - butine</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										th:each="userProgress : ${userProgerssListInfo.userProgressList}">
+										<td th:text="${userProgress.id}"></td>
+										<td th:text="${userProgress.date}"></td>
+										<td th:text="${userProgress.hight}"></td>
+										<td th:text="${userProgress.weigth}"></td>
+										<td th:text="${userProgress.BMI}"></td>
+										<td th:text="${userProgress.fatPercentage}"></td>
+										<td th:text="${userProgress.viscelar}"></td>
+										<td th:text="${userProgress.waist}"></td>
+										<td th:text="${userProgress.thigh}"></td>
+										<td><a href='#' class='btn-sm btn-danger btn-lg'><span
+												class='glyphicon glyphicon-remove'></span></a></td>
+									</tr>
+
+									<tr id='addr1'></tr>
+								</tbody>
+							</table>
+							<button id="submit" class="btn btn-primary pull-left"
+								type="submit" style="color: white;">Save</button>
+							<!-- 			<a id="print" class="btn btn-primary pull-left" onClick="print('progressList');" style="color:white;">Print</a> -->
+							<!-- 			<a id="save_progress" class="btn btn-primary" type="submit">Save Progress</a> -->
+							<!-- <input -->
+							<!-- 						class="btn btn-default navbar-btn navbar-right btn-lg btn-primary" -->
+							<!-- 						type="submit" value="Submit" th:attr="value=Save" /> -->
+							<!-- 			<a id='delete_row' class="pull-right btn btn-danger btn-default">Delete Row</a> -->
+							<a id="add_row" class='pull-right btn-sm btn-success btn-lg'><span
+								class='glyphicon glyphicon-plus'></span></a>
+						</div>
+					</div>
+					<div class="col-xs-12" style="height: 125px;"></div>
+				</div>
+			</form>
 		</div>
 	</div>
-	<div class="col-xs-12" style="height:125px;"></div>
-</div>
-</form>
-		</div>
-	</div>
-	
+
 
 </body>
 </html>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.crossballbox.model.TrainingProgram;
+import com.crossballbox.model.Programs;
 import com.crossballbox.model.User;
 
 public interface UserDAO extends JpaRepository<User, Integer> {
@@ -27,7 +27,7 @@ public interface UserDAO extends JpaRepository<User, Integer> {
 	
 	List<User> findUsersByRole(String role);
 	
-	List<User> findUsersByTrainings(TrainingProgram trainings);
+	
 	
 //	@Query("SELECT * FROM user u where u.role != ROLE_ADMIN") 
 //	List<User> findUsersByRole();

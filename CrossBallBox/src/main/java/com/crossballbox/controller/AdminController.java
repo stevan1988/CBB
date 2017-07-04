@@ -1,22 +1,36 @@
 package com.crossballbox.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.crossballbox.dao.FamilyDataDAO;
 import com.crossballbox.dao.TrainingProgramDAO;
@@ -28,12 +42,13 @@ import com.crossballbox.dao.UserProgressDAO;
 import com.crossballbox.model.FamilyData;
 import com.crossballbox.model.Programs;
 import com.crossballbox.model.Roles;
-import com.crossballbox.model.TrainingProgram;
 import com.crossballbox.model.User;
 import com.crossballbox.model.UserAdditionalInfo;
 import com.crossballbox.model.UserHealthyState;
 import com.crossballbox.model.UserInfo;
 import com.crossballbox.model.UserProgress;
+import com.crossballbox.service.ImageService;
+import com.crossballbox.util.ConfigurationUtils;
 import com.crossballbox.wrapper.UserProgressListWrapper;
 
 @Controller
@@ -49,7 +64,13 @@ public class AdminController {
   private UserInfoDAO userInfoDAO;
 
   @Autowired
+  private ConfigurationUtils configurationUtils;
+
+  @Autowired
   private FamilyDataDAO familyDataDAO;
+
+  @Autowired
+  private ImageService imageService;
 
   @Autowired
   private UserProgressDAO userProgressDAO;
@@ -76,6 +97,8 @@ public class AdminController {
   @RequestMapping(value = "/search", method = RequestMethod.GET)
   public String search(Model model, @RequestParam(value = "search", required = false) String query,
       @RequestParam(value = "program", required = false) String program) {
+
+    model = populateNotification(model);
     logger.info("Search query: " + query);
     logger.info("Searching program: " + program);
     // zameniti factory design patternom
@@ -115,10 +138,14 @@ public class AdminController {
     } else {
       // zameniti sa factory patternom
       Programs prog = Programs.valueOf(program);
-      // Set<TrainingProgram> programs = new HashSet<TrainingProgram>();
-      TrainingProgram trainingProgram = trainingProgramDAO.getTrainingProgramByName(program);
-      // List<User> users = new ArrayList<User>();
-      users = userDAO.findUsersByTrainings(trainingProgram);
+
+      List<UserInfo> usersInfoList = userInfoDAO.findUsersByTraining(prog);
+
+      Iterator<UserInfo> iterator = usersInfoList.iterator();
+      while (iterator.hasNext()) {
+        users.add(iterator.next().getUser());
+      }
+
     }
 
     model.addAttribute("users", users);
@@ -134,6 +161,66 @@ public class AdminController {
 
     return "redirect:/admin/search?search=";
     // return search(model, search, program);
+  }
+
+  // TODO: fix this method MultipartFile -> File check everything, check destination of image
+  @RequestMapping(value = "/upload_image", method = RequestMethod.POST)
+  // @ResponseBody
+  public String uploadUserImage(Model model, @RequestParam(value = "uploadfile", required = true) File uploadfile,
+      @RequestParam(value = "userId", required = true) int userId) throws JSONException {
+
+    // obrisi ako vec postoji
+    String fileExtension = "jpg";// uploadfile.getOriginalFilename().split("\\.")[1];
+    File dstFile = new File(configurationUtils.getFileDownloadPath() + File.separator + userId + "." + fileExtension);
+    try {
+      // if (uploadfile.isEmpty()) {
+      // logger.error("Empty file path");
+      // }
+      System.out.println("file extension: " + fileExtension);
+      if (("jpg").equals(fileExtension) || ("png").equals(fileExtension) || ("gif").equals(fileExtension)) {
+
+        File jpgFile;
+        if ("jpg".equals(fileExtension)) {
+          jpgFile = uploadfile;// convertMultipartFileToFile(uploadfile);
+        } else {
+          jpgFile = imageService.convertPngToJpg(uploadfile);// convertMultipartFileToFile(uploadfile));
+        }
+        copyFile(jpgFile, dstFile);
+        UserInfo userInfo = userInfoDAO.findById(userId);
+        if (userInfo == null) {
+          userInfo = new UserInfo(userId);
+          userInfo.setUser(userDAO.findById(userId));
+          userDAO.findById(userId).setUserInfo(userInfo);
+          List<UserProgress> list = new ArrayList<UserProgress>();
+        } else {
+        }
+        String dstRelativePath = null;
+        if (dstFile.getCanonicalPath().contains(configurationUtils.getFileDownloadPath().toString())) {
+          dstRelativePath = dstFile.getCanonicalPath()
+              .substring(dstFile.getCanonicalPath().lastIndexOf(configurationUtils.getFileDownloadPath().toString()) + 1);
+        }
+        logger.info("dstRelativePath: " + dstFile.getCanonicalPath());
+        logger.info("dstRelativePath1: " + dstRelativePath);
+        userInfo.setImagePath(dstRelativePath);
+        userInfoDAO.save(userInfo);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+
+        // delete from folder
+      } else {
+        logger.error("Bad file format for user profile image!");
+      }
+
+    } catch (Exception e) {
+      logger.error("Failed to upload image!");
+      System.out.println(e.getMessage());
+    }
+    model.addAttribute("imagePath", "../" + dstFile.getPath());
+    model.addAttribute("reload", "true");
+    updateUserInfo(model, Integer.toString(userId));
+
+    String ret = "redirect:/admin/user?id=" + userId + "#";
+    return ret;
   }
 
   @RequestMapping(value = "/user", method = RequestMethod.GET)
@@ -183,16 +270,49 @@ public class AdminController {
     return "admin/user_details";
   }
 
+  private Model populateNotification(Model model) {
+    //hardcoded - read from DB and make link from this, so the admin can click on user
+    String noNotifications = "3";
+    model.addAttribute("notificationNumber", noNotifications); // number of unread notifications
+    List<String> notificationsLinks = new ArrayList<String>();
+    notificationsLinks.add("notifications1");
+    notificationsLinks.add("notifications2");
+    notificationsLinks.add("notifications3");
+    model.addAttribute("notifications", notificationsLinks); // number of unread notifications
+
+    return model;
+  }
+
+  private String createUsername(String firstname, String lastname) {
+    String username = firstname.substring(0, 1) + lastname;
+    int i = 1;
+    while (!isValidUsername(username)) {
+      if (i <= firstname.length()) {
+        username = firstname.substring(0, ++i) + lastname;
+      } else {
+        username += i++;
+      }
+    }
+
+    return username.toLowerCase();
+  }
+
   @RequestMapping(value = "/createNewUser", method = RequestMethod.POST)
   public String newUser(Model model, @RequestParam(value = "firstName", required = true) String firstName,
       @RequestParam(value = "lastName", required = true) String lastName, @RequestParam(value = "eMail", required = true) String eMail,
-      @RequestParam(value = "dateBirth", required = true) String dateBirth,
+      @RequestParam(value = "dateBirth", required = false) String dateBirth,
       @RequestParam(value = "phoneNumber", required = true) String phoneNumber,
       @RequestParam(value = "trainingProgram", required = true) String trainingProgram,
       @RequestParam(value = "username", required = false) String username,
       @RequestParam(value = "password", required = false) String password) {
 
-    if (isValidUsername(username)) {
+    logger.info("create new user with: firstname: " + firstName + ", lastname: " + lastName + ", email:" + eMail + ", dateBirth: "
+        + dateBirth + ", phoneNumber: " + phoneNumber + ", trainingProgram:" + trainingProgram + " ,username: " + username);
+
+    if (StringUtils.isEmpty(username)) {
+      username = createUsername(firstName, lastName);
+    }
+    if (isValidUsername(username)) {// delete, unnecessary check
 
       password = "pass";
       User user = new User();
@@ -205,11 +325,15 @@ public class AdminController {
       user.setDateCreated(new Date(d.getTime()));
       user.setEnabled("true");
       UserInfo userInfo = new UserInfo();
-      // userInfo.setDateBirth(dateBirth);
+      userInfo.setTraining(Programs.valueOf(trainingProgram));
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("[dd/MM/yyyy][d/MM/yyyy][dd/M/yyyy][d/M/yyyy]");
+      LocalDate dateTime = LocalDate.parse(dateBirth, formatter);
+      userInfo.setDateBirth(dateTime);
       // userInfo.setGender(gender);
       // userInfo.setImagePath(imagePath);
       userInfo.setPhone(phoneNumber);
       userInfo.setUser(user);
+      userInfo.setId(user.getId());
       userInfoDAO.save(userInfo);
       user.setUserInfo(userInfo);
 
@@ -249,6 +373,28 @@ public class AdminController {
     return "#";
   }
 
+  @RequestMapping(value = "/setMemberFees", method = RequestMethod.POST)
+  public String setMemberFees(@RequestParam(value = "id", required = true) String id, @RequestParam(value = "date") Date date) {
+    logger.info("setMemberFees for user with id=" + id);
+    int userId = Integer.parseInt(id);
+    UserInfo userInfo = userInfoDAO.findById(userId);
+    if (userInfo == null) {
+      userInfo = new UserInfo(userId);
+
+      User user = userDAO.findById(userId);
+      user.setUserInfo(userInfo);
+      userDAO.save(user);
+      userInfo.setUser(user);
+    }
+
+    userInfo.setMemberFees(date.toLocalDate());
+
+    userInfoDAO.save(userInfo);
+
+    String ret = "redirect:/admin/user?id=" + id + "#";
+    return ret;
+  }
+
   private FamilyData saveFamilyData(int userId, String familyDiabetis, String familyObesity, String familyCardio) {
 
     boolean familyDiabetisBool = (familyDiabetis.equalsIgnoreCase("no") ? false : true);
@@ -264,7 +410,7 @@ public class AdminController {
       familyData.setDiabetes(familyDiabetisBool);
     }
 
-    familyDataDAO.save(familyData);
+    familyDataDAO.saveAndFlush(familyData);
 
     return familyData;
   }
@@ -424,5 +570,37 @@ public class AdminController {
   @RequestMapping(value = "/renewMemberFees", method = RequestMethod.POST)
   public String renewMemberFees() {
     return null;
+  }
+
+  private File convertMultipartFileToFile(MultipartFile file) throws IOException {
+    File convFile = new File(file.getOriginalFilename());
+    convFile.createNewFile();
+    FileOutputStream fos = new FileOutputStream(convFile);
+    fos.write(file.getBytes());
+    fos.close();
+    return convFile;
+  }
+
+  private void copyFile(File sourceFile, File destFile) throws IOException {
+    if (!destFile.exists()) {
+      // TODO: ispravi, kad nema kreiran fajl!
+      destFile.createNewFile();
+    }
+
+    FileChannel source = null;
+    FileChannel destination = null;
+
+    try {
+      source = new FileInputStream(sourceFile).getChannel();
+      destination = new FileOutputStream(destFile).getChannel();
+      destination.transferFrom(source, 0, source.size());
+    } finally {
+      if (source != null) {
+        source.close();
+      }
+      if (destination != null) {
+        destination.close();
+      }
+    }
   }
 }
