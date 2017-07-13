@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.crossballbox.dao.UserDAO;
 import com.crossballbox.model.User;
 import com.crossballbox.security.Navigation;
+import com.crossballbox.service.AdminService;
 import com.crossballbox.service.EMailService;
+import com.crossballbox.service.UserInfoService;
 import com.crossballbox.service.UserService;
 
 @Controller
@@ -45,6 +47,9 @@ public class HomeController {
 
 	@Autowired
 	protected AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private UserInfoService userInfoService;
 
 	@RequestMapping(value = {"/table" })
 	public String table(Model model) {
@@ -61,6 +66,25 @@ public class HomeController {
 		model.addAttribute("", "");
 		return "index";
 	}
+	
+	 @Autowired
+	  private AdminService adminService;
+	
+	@RequestMapping(value = "/createAdminUser")
+	  public String createAdminUser(Model model) {
+	    logger.info("create admin user!");
+
+	    String ADMIN = "admin";
+	    User user = adminService.createNewUser(ADMIN, ADMIN, "test@gmail.com", "1/1/2000", "123456", "NONE", ADMIN, ADMIN);
+	    user.setRole("ROLE_ADMIN");
+	    userDAO.save(user);
+
+	    logger.info("new user is created" + user.toString());
+	    
+	    userInfoService.updateUserInfo(model, String.valueOf(user.getId()));
+
+	    return "index";
+	  }
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String displayLogin(Model model) {

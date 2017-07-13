@@ -1,41 +1,59 @@
- $(document).ready(function () {
+$(document).ready(function() {
 
-        // ANIMATEDLY DISPLAY THE NOTIFICATION COUNTER.
-        $('#noti_Counter')
-            .css({ opacity: 0 })
-//            .text('3')              // ADD DYNAMIC VALUE (YOU CAN EXTRACT DATA FROM DATABASE OR XML).
-            .css({ top: '-10px' })
-            .animate({ top: '-2px', opacity: 1 }, 500);
+	// ANIMATEDLY DISPLAY THE NOTIFICATION COUNTER.
+	$('#noti_Counter').css({
+		opacity : 0
+	})
+	// .text('3') // ADD DYNAMIC VALUE (YOU CAN EXTRACT DATA FROM DATABASE OR
+	// XML).
+	.css({
+		top : '-10px'
+	}).animate({
+		top : '-2px',
+		opacity : 1
+	}, 500);
 
-        $('#noti_Button').click(function () {
+	if ($('#noti_Counter').text() == "") {
+		$('#noti_Counter').css({
+			background : 0
+		})
+	}
 
-            // TOGGLE (SHOW OR HIDE) NOTIFICATION WINDOW.
-            $('#notifications').fadeToggle('fast', 'linear', function () {
-                if ($('#notifications').is(':hidden')) {
-                    $('#noti_Button').css('background-color', '#2E467C');
-                }
-                else $('#noti_Button').css('background-color', '#FFF');        // CHANGE BACKGROUND COLOR OF THE BUTTON.
-            });
+	$('#noti_Button').click(function() {
 
-            $('#noti_Counter').fadeOut('slow');                 // HIDE THE COUNTER.
+		// TOGGLE (SHOW OR HIDE) NOTIFICATION WINDOW.
+		$('#notifications').fadeToggle('fast', 'linear', function() {
+			if ($('#notifications').is(':hidden')) {
+				$('#noti_Button').css('background-color', '#ffffff');
+			} else
+				$('#noti_Button').css('background-color', '#FFF'); // CHANGE
+																	// BACKGROUND
+																	// COLOR OF
+																	// THE
+																	// BUTTON.
+		});
 
-            return false;
-        });
+		$('#noti_Counter').fadeOut('slow'); // HIDE THE COUNTER.
 
-        // HIDE NOTIFICATIONS WHEN CLICKED ANYWHERE ON THE PAGE.
-        $(document).click(function () {
-            $('#notifications').hide();
+		return false;
+	});
 
-            // CHECK IF NOTIFICATION COUNTER IS HIDDEN.
-            if ($('#noti_Counter').is(':hidden')) {
-                // CHANGE BACKGROUND COLOR OF THE BUTTON.
-                $('#noti_Button').css('background-color', '#2E467C');
-            }
-        });
+	// HIDE NOTIFICATIONS WHEN CLICKED ANYWHERE ON THE PAGE.
+	$(document).click(function() {
+		$('#notifications').hide();
 
-        $('#notifications').click(function () {
-            return false;       // DO NOTHING WHEN CONTAINER IS CLICKED.
-        });
-        
-        //za dodavanje texta - da pozovem iz bvackenda  = $('<p>Text</p>').appendTo('#notification_area');
-    });
+		// CHECK IF NOTIFICATION COUNTER IS HIDDEN.
+		if ($('#noti_Counter').is(':hidden')) {
+			// CHANGE BACKGROUND COLOR OF THE BUTTON.
+			$('#noti_Button').css('background-color', '#ffffff');
+		}
+
+	});
+
+	// $('#notifications').click(function () {
+	// return false; // DO NOTHING WHEN CONTAINER IS CLICKED.
+	// });
+
+	// za dodavanje texta - da pozovem iz bvackenda =
+	// $('<p>Text</p>').appendTo('#notification_area');
+});

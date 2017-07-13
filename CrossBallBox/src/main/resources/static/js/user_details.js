@@ -84,6 +84,21 @@ function chooseFile() {
 	$("#imgInput").click();
 }
 
+//for user image change
+//$('input[type=text]').click(function() {
+//    $('input[type=file]').trigger('click');
+//});
+
+$('input[type=file]').change(function() {
+    $('input[type=text]').val($(this).val());
+    document.getElementById("upload_image").submit();
+});
+//document.getElementById("upload_image").onchange = function() {
+//    document.getElementById("upload_image").submit();
+//};
+
+//end for user image change
+
 $('.toggleModal').on('click', function (e) {
 	  $('.modal').modal('show');
 	});
@@ -222,7 +237,7 @@ function add() {
     cell7.innerHTML = "<input name='userProgressList["+i+"].viscelar' type='text' placeholder='Viscelar fat' class='form-control input-md'  /> ";
     cell8.innerHTML = "<input name='userProgressList["+i+"].waist' type='text' placeholder='Waist size' class='form-control input-md'  /> ";
     cell9.innerHTML = "<input name='userProgressList["+i+"].thigh' type='text' placeholder='Thigh size' class='form-control input-md'  /> ";
-    cell10.innerHTML = "<a id='delete_row' class='btn-sm btn-danger btn-lg'><span class='glyphicon glyphicon-remove'></span></a>"
+    cell10.innerHTML = "<a href='javascript:remove()' id='delete_row' class='btn-sm btn-danger btn-lg'><span class='glyphicon glyphicon-remove'></span></a>"
 }
 
 function remove() {
@@ -230,4 +245,6 @@ function remove() {
     if(table.rows.length > 2){
     	var row = table.deleteRow(table.rows.length-1);
     }
+    
+    	   closest('tr').remove();
 }

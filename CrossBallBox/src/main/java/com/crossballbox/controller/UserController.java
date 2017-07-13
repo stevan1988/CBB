@@ -49,7 +49,8 @@ public class UserController {
 
 	@Autowired
 	private ImageService imageService;
-
+	
+	//TODO: koristi metode iz adminService
 	@RequestMapping(value = "/upload_image", method = RequestMethod.POST)
 	@ResponseBody
 	public void uploadUserImage(Model model,

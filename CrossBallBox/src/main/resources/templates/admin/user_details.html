@@ -28,25 +28,28 @@
 												<td rowspan="4" style="width: 25%">
 													<div>
 														<img id="user_image" height="250" width="230"
-															th:src="@{../userImages/} + ${user.id} +@{.jpg}"
+															 th:object="${project}" th:src="@{|${user.imagePath}|}"
 															onmouseover="bigImg(this)" onmouseout="normalImg(this)"
 															onclick="chooseFile()" />
 													</div>
-
-													<div style="height: 0px; overflow: hidden">
-														<input type="file" id="imgInput" name="imgInput" />
-													</div>
+													<form id="upload_image" th:action="@{/admin/upload_image}" method="post" enctype="multipart/form-data">
+														<div style="height: 0px; overflow: hidden">
+															<input type="hidden" name="userId"
+																th:value="${userProfile.id}" />
+															<input type="file" id="imgInput" name="uploadfile" accept=".jpg" />
+														</div>
+													</form>
 													<div>
 														<!-- Upload file form  -->
-														<form id="upload_image" th:action="@{/admin/upload_image}"
-															method="post" th:object="${project}">
-															<input type="hidden" name="userId"
-																th:value="${userProfile.id}" /> 
-															<label for="upload-file-input">Upload your file:</label> 
-															<input id="upload-file-input" type="file" name="uploadfile" accept=".jpg" />
-															 <input class="btn btn-default navbar-btn btn-primary"
-																type="submit" value="Save Image" />
-														</form>
+<!-- 														<form id="upload_image" th:action="@{/admin/upload_image}" -->
+<!-- 															method="post" th:object="${project}"> -->
+<!-- 															<input type="hidden" name="userId" -->
+<!-- 																th:value="${userProfile.id}" />  -->
+<!-- 															<label for="upload-file-input">Upload your file:</label>  -->
+<!-- 															<input id="upload-file-input" type="file" name="uploadfile" accept=".jpg" /> -->
+<!-- 															 <input class="btn btn-default navbar-btn btn-primary" -->
+<!-- 																type="submit" value="Save Image" /> -->
+<!-- 														</form> -->
 
 													</div>
 												</td>

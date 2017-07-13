@@ -2,7 +2,7 @@ package com.crossballbox.model;
 
 public enum Programs {
 
-	TAEBO("T"), CROSSFIT("C"), AEROTONUS("A"), TOTAL50("T50");
+	NONE("N"), TAEBO("T"), CROSSFIT("C"), AEROTONUS("A"), TOTAL50("T50");
 	
 	private String programsLetter;
 	 

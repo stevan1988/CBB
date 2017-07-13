@@ -27,6 +27,8 @@ public interface UserDAO extends JpaRepository<User, Integer> {
 	
 	List<User> findUsersByRole(String role);
 	
+//	List<User> findUsersByRoleAndByUserInfoWhereTraining(String role, Programs training);
+	
 	
 	
 //	@Query("SELECT * FROM user u where u.role != ROLE_ADMIN") 

@@ -64,7 +64,7 @@
     /* THE NOTIFICAIONS WINDOW. THIS REMAINS HIDDEN WHEN THE PAGE LOADS. */
     #notifications {
         display:none;
-        width:430px;
+        width:185px;
         position:absolute;
         top:30px;
         left:0;

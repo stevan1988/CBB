@@ -1,5 +1,6 @@
 package com.crossballbox.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -23,6 +24,18 @@ public interface UserInfoDAO extends JpaRepository<UserInfo, Integer> {
 	int setImageForUser(String imagePath, int id);
 	
 	List<UserInfo> findUsersByTraining(Programs trainings);
+	
+	List<UserInfo> findAll();
+	
+	@Query("SELECT e.memberFees FROM UserInfo e")
+    public List<LocalDate> getAll();
+
+	@Modifying(clearAutomatically = true)
+	@Query("SELECT e FROM UserInfo e WHERE e.memberFees BETWEEN ?1 AND ?2")
+//	@Query("SELECT e FROM UserInfo e WHERE memberFees BETWEEN ?1 AND ?2")
+    public List<UserInfo> getUserInfoBasedOnDate(LocalDate start, LocalDate end);
+	
+	public List<UserInfo> findByMemberFeesBetween(LocalDate start, LocalDate end);
 	
 //	List<UserProgress> getUserProgress
 	

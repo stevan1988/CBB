@@ -1,0 +1,1 @@
+In this folder are saved profile images of the users.

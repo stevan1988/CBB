@@ -70,23 +70,12 @@ public class UserService implements UserDetailsService {
 		}
 		return retUser;
 		
-//		User user = userDAO.getUserByUsername(username);
-//        
-//        if(user == null) {
-//            throw new UsernameNotFoundException(username);
-//        }
-//        if(requireActivation && !user.getToken().equals("1")) {
-//            logger.error("User [" + username + "] tried to login but is not activated");
-//            throw new UsernameNotFoundException(username + " has not been activated yet");
-//        }
-//        httpSession.setAttribute(CURRENT_USER_KEY, user);
-//        List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole());
-//        
-//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), auth);
 	}
 
 	public void addTrainngToUser(){
 		
 	}
+	
+	
 	
 }

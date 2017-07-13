@@ -3,6 +3,7 @@ package com.crossballbox.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Transactional
+@Cacheable(false)
 public class UserInfo implements Serializable {
 
   /**
@@ -56,18 +58,19 @@ public class UserInfo implements Serializable {
   private String profession;
 
   @Lob
-  @OneToOne(mappedBy = "userInfo")
+  @OneToOne(mappedBy = "userInfo", fetch = FetchType.EAGER)
   private FamilyData familyData;
 
   @Lob
-  @OneToOne(mappedBy = "userInfo")
+  @OneToOne(fetch = FetchType.EAGER, mappedBy = "userInfo")
   private UserHealthyState userHealthyState;
 
   @Lob
-  @OneToOne(mappedBy = "userInfo")
+  @OneToOne(fetch = FetchType.EAGER, mappedBy = "userInfo")
   private UserAdditionalInfo userAdditionalInfo;
 
-  @Column(name = "memeber_fees")
+  @Column(name = "member_fees")
+  @DateTimeFormat(pattern = "dd/MM/yyyy")
   private LocalDate memberFees;
 
   public UserInfo() {}
