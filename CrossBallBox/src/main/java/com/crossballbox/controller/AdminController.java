@@ -94,12 +94,16 @@ public class AdminController {
     User user = userDAO.findById(userId);
     try{
     userInfoDAO.delete(user.getUserInfo());
+    userInfoDAO.flush();
     }catch(Exception e){
       logger.error("Error: delete user info for user id: " + id);
     }
     userDAO.delete(user);
+    userDAO.flush();
 
-    return "redirect:/admin/search?search=";
+    String query = "";
+    String program = null;
+    return search(model, query, program);//"redirect:/admin/search?search=";
   }
 
   @RequestMapping(value = "/createNewUser", method = RequestMethod.POST)
@@ -215,8 +219,8 @@ public class AdminController {
         trainingActivity, suplementsType, trainingActivityType);
 
     User user = userDAO.findById(userId);
-    // TODO: fix imagePath
-    UserInfo userInfo = adminService.saveUserInfo(familyData, userHealthyState, userAdditionalInfo, "imagePath", user);
+
+    UserInfo userInfo = adminService.saveUserInfo(familyData, userHealthyState, userAdditionalInfo, null, user);
 
     adminService.saveUser(userId, userInfo);
 
@@ -226,9 +230,6 @@ public class AdminController {
   @RequestMapping(value = "/search", method = RequestMethod.GET)
   public String search(Model model, @RequestParam(value = "search", required = false) String query,
       @RequestParam(value = "program", required = false) String program) {
-
-    // Session session = sessionFactory.getCurrentSession();
-    // session.clear();
 
     model = adminService.populateNotification(model);
     logger.info("Search query: " + query);

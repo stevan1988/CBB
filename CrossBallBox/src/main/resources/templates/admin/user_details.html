@@ -93,10 +93,11 @@
 				method="post" th:object="${project}">
 				<div class="project-list single">
 					<input type="hidden" name="id" th:value="${userInfo.id}" /> <label
-						for="date-started">Last member fees paid:</label> <input
-						name="date" type="date" id="date-started"
-						th:value="${userInfo.memberFees}" /> <input
-						class="btn btn-default navbar-btn btn-primary" type="submit"
+						for="date-started">Last member fees paid:</label> 
+					<input name="date" type="date" id="date-started"
+						th:value="${userInfo.memberFees}"  pattern="[0-9]{1,4}+\.[0-9]{0,4}$"
+									oninvalid="this.setCustomValidity('Please Enter Number')"/> 
+					<input class="btn btn-default navbar-btn btn-primary" type="submit"
 						value="Submit" th:attr="value=Save" />
 				</div>
 			</form>

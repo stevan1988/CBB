@@ -5,14 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 
@@ -23,7 +23,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.context.ContextLoader;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.crossballbox.dao.FamilyDataDAO;
@@ -68,20 +67,19 @@ public class AdminService {
   @Autowired
   private UserHealthyStateDAO userHealthyStateDAO;
 
+  private File convertMultipartFileToFile(MultipartFile file) throws IOException {
 
-   private File convertMultipartFileToFile(MultipartFile file) throws IOException {
-  
-   logger.info("convertMultipartFileToFile");
-  
-   File convFile = new File(file.getOriginalFilename());
-   convFile.createNewFile();
-   FileOutputStream fos = new FileOutputStream(convFile);
-   fos.write(file.getBytes());
-   fos.close();
-   return convFile;
-   }
+    logger.info("convertMultipartFileToFile");
 
-  private void copyFile(File sourceFile, File destFile/*, MultipartFile multipartFile */) {
+    File convFile = new File(file.getOriginalFilename());
+    convFile.createNewFile();
+    FileOutputStream fos = new FileOutputStream(convFile);
+    fos.write(file.getBytes());
+    fos.close();
+    return convFile;
+  }
+
+  private void copyFile(File sourceFile, File destFile/* , MultipartFile multipartFile */) {
 
     logger.info("copyFile");
     // File destFile1 = new File(destFile.getPath());
@@ -95,7 +93,7 @@ public class AdminService {
       destFile.delete();
       try {
         destFile.createNewFile();
-        
+
       } catch (IOException e) {
         logger.error("error: " + e.getMessage() + " stack trace: " + e.getStackTrace().toString());
       }
@@ -108,13 +106,13 @@ public class AdminService {
       try {
         if (!sourceFile.canRead()) {
           sourceFile.setReadable(true);
-       }
+        }
         source = new FileInputStream(sourceFile).getChannel();
         destination = new FileOutputStream(destFile).getChannel();
         destination.transferFrom(source, 0, source.size());
-      } catch(FileNotFoundException e){
+      } catch (FileNotFoundException e) {
         logger.error("file not found: " + e.getMessage());
-      }finally {
+      } finally {
         if (source != null) {
           source.close();
         }
@@ -186,7 +184,8 @@ public class AdminService {
     // TODO: get extension
     String fileExtension = uploadfile.getOriginalFilename().split("\\.")[1];
     File dstFile = new File(configurationUtils.getFileDownloadPath() + File.separator + userId + "." + fileExtension);
-//    File file = new File(ClassLoader.getResource(".").getFile() + File.separator + userId + "." + fileExtension);
+    // File file = new File(ClassLoader.getResource(".").getFile() + File.separator + userId + "." +
+    // fileExtension);
     try {
       System.out.println("file extension: " + fileExtension);
       if (("jpg").equals(fileExtension) || ("png").equals(fileExtension) || ("gif").equals(fileExtension)) {
@@ -195,9 +194,9 @@ public class AdminService {
         if ("jpg".equals(fileExtension)) {
           jpgFile = convertMultipartFileToFile(uploadfile);
         } else {
-          jpgFile = /*imageService.*/convertMultipartFileToFile(uploadfile);
+          jpgFile = /* imageService. */convertMultipartFileToFile(uploadfile);
         }
-        copyFile(jpgFile, dstFile/*, uploadfile*/);
+        copyFile(jpgFile, dstFile/* , uploadfile */);
         User user = userDAO.findById(userId);
         UserInfo userInfo = user.getUserInfo();// UserInfo userInfo = userInfoDAO.findById(userId);
         if (userInfo == null) {
@@ -212,8 +211,8 @@ public class AdminService {
           dstRelativePath = dstFile.getCanonicalPath()
               .substring(dstFile.getCanonicalPath().lastIndexOf(configurationUtils.getFileDownloadPath().toString()) + 1);
         }
-//        logger.info("dstRelativePath: " + dstFile.getCanonicalPath());
-//        logger.info("dstRelativePath1: " + dstFile.getName());
+        // logger.info("dstRelativePath: " + dstFile.getCanonicalPath());
+        // logger.info("dstRelativePath1: " + dstFile.getName());
         userInfo.setImagePath(USER_IMAGES_PREFIX_PATH + dstFile.getName());
         userInfoDAO.save(userInfo);
         final HttpHeaders headers = new HttpHeaders();
@@ -236,7 +235,7 @@ public class AdminService {
       String imagePath, User user) {
 
     int userId = user.getId();
-    UserInfo userInfo = user.getUserInfo();//  UserInfo userInfo = userInfoDAO.findById(userId);
+    UserInfo userInfo = user.getUserInfo();// UserInfo userInfo = userInfoDAO.findById(userId);
     if (userInfo == null) {
       userInfo = new UserInfo(userId);
     }
@@ -244,7 +243,7 @@ public class AdminService {
     userInfo.setUserHealthyState(userHealthyState);
     userInfo.setUserAdditionalInfo(userAdditionalInfo);
     userInfo.setUser(user);
-    userInfo.setImagePath(imagePath);
+//    userInfo.setImagePath(imagePath);
 
     userInfoDAO.save(userInfo);
 
@@ -252,80 +251,34 @@ public class AdminService {
   }
 
   public Model populateNotification(Model model) {
-//    logger.info("populate Notification");
-//    LocalDate date = LocalDate.of(1900, 8, 11);
-//    LocalDate now = LocalDate.now().plusDays(3);
-//
-//    List<UserInfo> userInfoList = userInfoDAO.getUserInfoBasedOnDate(date, now);
-//    List<String> notificationsLinks = new ArrayList<String>();
-//    for (UserInfo userInfo : userInfoList) {
-//      notificationsLinks.add(userInfo.getUser().getFirstName() + " " + userInfo.getUser().getLastName());
-//    }
-//    // notificationsLinks treba da bude <= 15 - reseno na beckendu, lakse mi je tako
-//    model.addAttribute("notifications", notificationsLinks); // number of unread notifications
-//
-//    // String noNotifications = "3";
-//    model.addAttribute("notificationNumber", notificationsLinks.size()); // number of unread
-//                                                                         // notifications
-//
-//    return model;
-    
-logger.info("populate Notification");
-    
-    //to avoid hibernate/jpa caching 
-    entityManager.clear();
-    
-    
-    
-    LocalDate date = LocalDate.of(1900, 8, 11);
-    LocalDate now = LocalDate.now().minusMonths(1).plusDays(3);//moze citanje iz baze, za setting
 
-//    List<UserInfo> userInfoList = userInfoDAO.getUserInfoBasedOnDate(date, now);
+    logger.info("populate Notification");
+
+    // to avoid hibernate/jpa caching
+    entityManager.clear();
+
+    LocalDate date = LocalDate.of(1900, 8, 11);
+    LocalDate now = LocalDate.now().minusMonths(1).plusDays(3);// moze citanje iz baze, za setting
+
     List<UserInfo> userInfoList = userInfoDAO.findByMemberFeesBetween(date, now);
-    
-    List<String> notificationsLinks = new ArrayList<String>();
-    List<Integer> notificationUserID = new ArrayList<Integer>();
+
+    Map<Integer, String> notificationsLinks = new HashMap<Integer, String>();
     for (UserInfo userInfo : userInfoList) {
-      if(userInfo.getMemberFees().isBefore(LocalDate.now().minusMonths(1).plusDays(3))){
-        notificationsLinks.add(userInfo.getUser().getFirstName() + " " + userInfo.getUser().getLastName());
-        notificationUserID.add(userInfo.getId());
+      if (userInfo.getMemberFees().isBefore(LocalDate.now().minusMonths(1).plusDays(3))) {
+        notificationsLinks.put(userInfo.getId(), userInfo.getUser().getFirstName() + " " + userInfo.getUser().getLastName());
       }
     }
     // notificationsLinks treba da bude <= 15 - reseno na beckendu, lakse mi je tako
-    model.addAttribute("notifications", notificationsLinks); // number of unread notifications
 
     model.addAttribute("notificationNumber", notificationsLinks.size()); // number of unread
-                                                                         // notifications
-    model.addAttribute("notificationUserID", notificationUserID);
-    
+
+    model.addAttribute("notifications", notificationsLinks); // number of unread notifications
+                                                             // notifications
     return model;
   }
-  
+
   @Autowired
   private EntityManager entityManager;
-  
-//  public ModelAndView populateNotification(ModelAndView model) {
-//    logger.info("populate Notification");
-//    
-//    LocalDate date = LocalDate.of(1900, 8, 11);
-//    LocalDate now = LocalDate.now().plusDays(3);//moze citanje iz baze, za setting
-//
-//    List<UserInfo> userInfoList = userInfoDAO.getUserInfoBasedOnDate(date, now);
-//    List<String> notificationsLinks = new ArrayList<String>();
-//    List<Integer> notificationUserID = new ArrayList<Integer>();
-//    for (UserInfo userInfo : userInfoList) {
-//      notificationsLinks.add(userInfo.getUser().getFirstName() + " " + userInfo.getUser().getLastName());
-//      notificationUserID.add(userInfo.getId());
-//    }
-//    // notificationsLinks treba da bude <= 15 - reseno na beckendu, lakse mi je tako
-//    model.getModel().put("notifications", notificationsLinks); // number of unread notifications
-//
-//    model.getModel().put("notificationNumber", notificationsLinks.size()); // number of unread
-//                                                                         // notifications
-//    model.getModel().put("notificationUserID", notificationUserID);
-//
-//    return model;
-//  }
 
   public FamilyData saveFamilyData(int userId, String familyDiabetis, String familyObesity, String familyCardio) {
 

@@ -135,12 +135,10 @@
 														<div id="notification_area" style="height: 300px;">
 														<table>
 															<tr th:each="notif : ${notifications}">
-																<th th:each="id: ${notificationUserID}">
-																<a th:href="'user?id='+${id}" th:text="${notif}">
-<!-- 																	<td th:text="${id}"></td> -->
-<!-- 																	<td th:text="${notif}"></td> -->
+															<td>
+																<a th:href="'user?id='+${notif.key}" th:text="${notif.value}">
 																</a>
-																</th>
+																</td>
 															</tr>
 															</table>
 														</div>
