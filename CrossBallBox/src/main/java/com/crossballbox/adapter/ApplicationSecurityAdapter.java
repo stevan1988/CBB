@@ -30,7 +30,7 @@ public class ApplicationSecurityAdapter extends WebSecurityConfigurerAdapter {
 		http.csrf();
 		
 		http.authorizeRequests().antMatchers("/css/**", "/js/**", "/img/**", "/bootstrap/**", "/resources/**").permitAll()
-		.antMatchers("/", "/createAdminUser", "/index", "/signUp", "/user/activate", "/news", "/taebo", "/crossfit", "/aerotonus", "/total50").permitAll()
+		.antMatchers("/", "/createAdminUser", "/index", "/signUp", "/user/activate", "/news", "/about", "/contact", "/taebo", "/crossfit", "/aerotonus", "/total50").permitAll()
         .antMatchers("/user/**").hasRole("USER")
         .antMatchers("/admin/**", "/user/**").hasRole("ADMIN")
         .anyRequest().authenticated()

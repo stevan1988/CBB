@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/main">
+<head>
+<title>AboutUs</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div>
+				<br></br>
+			</div>
+			<div class="page-header">
+				<h2>We are young and passionate team</h2>
+			</div>
+			<div class="commits list-group">
+				<div th:each="commit : ${latestFrameworkCommits}"
+					class="list-group-item">
+					<img height="50" width="50" th:src="${commit.committer.avatarUrl}" />
+					<a
+						th:href="'https://github.com/spring-projects/spring-framework/commit/' + ${commit.sha}"
+						class="badge" th:text="${#strings.abbreviate(commit.sha, 11)}">deadb33f</a>
+					<h4 class="list-group-item-heading" th:text="${commit.message}">Fix
+						a Spring Framework issue</h4>
+					<p class="list-group-item-text" th:inline="text">Committed by
+						[[${commit.committer.name}]]</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

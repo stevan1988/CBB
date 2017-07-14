@@ -92,9 +92,12 @@ public class AdminController {
     int userId = Integer.valueOf(id);
     
     User user = userDAO.findById(userId);
-    userDAO.delete(user);
-    
+    try{
     userInfoDAO.delete(user.getUserInfo());
+    }catch(Exception e){
+      logger.error("Error: delete user info for user id: " + id);
+    }
+    userDAO.delete(user);
 
     return "redirect:/admin/search?search=";
   }
@@ -307,7 +310,7 @@ public class AdminController {
 
   @RequestMapping(value = "/user", method = RequestMethod.GET)
   public String updateUserInfo(Model model, @RequestParam(value = "id", required = true) String id) {
-
+    model = adminService.populateNotification(model);
     model = userInfoService.updateUserInfo(model, id);
 
     return "admin/user_details";

@@ -1,4 +1,3 @@
-/* #navbar li a { padding: 10px; display: block; } */
 
 #confirm-delete {
     position:fixed;
@@ -9,6 +8,7 @@
     -webkit-transform: translate(-50%,-50%);
      transform: translate(-50%,-50%);
 }
+
 
 #drop-down-btn {
     background-color: #000000;

@@ -62,7 +62,7 @@ public class HomeController {
 	@RequestMapping(value = { "", "/", "/index" })
 	public String home(Model model) {
 		logger.info("Oppening index page");
-
+		model = adminService.populateNotification(model);
 		model.addAttribute("", "");
 		return "index";
 	}
@@ -165,6 +165,22 @@ public class HomeController {
 
         model.addAttribute("", "");
         return "news";
+    }
+	
+	@RequestMapping("/about")
+    public String about(Model model) {
+        logger.info("Oppening about page");
+
+        model.addAttribute("", "");
+        return "about";
+    }
+	
+	@RequestMapping("/contact")
+    public String contact(Model model) {
+        logger.info("Oppening contact page");
+
+        model.addAttribute("", "");
+        return "contact";
     }
 
 	@RequestMapping("/taebo")
