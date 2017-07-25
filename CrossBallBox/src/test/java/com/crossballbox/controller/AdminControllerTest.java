@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class AdminControllerTest {
 
-  @Test
+//  @Test
   public void dateParseTest(){
     String dateBirth = "4/5/1988";
      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("[dd/MM/yyyy][d/MM/yyyy][dd/M/yyyy][d/M/yyyy]");

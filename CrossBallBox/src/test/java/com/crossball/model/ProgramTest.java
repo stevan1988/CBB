@@ -8,7 +8,7 @@ import com.crossballbox.model.Programs;
 
 public class ProgramTest {
 
-  @Test
+//  @Test
   public void getPropperNameFromEnum(){
     
     String program = "CROSSFIT";
