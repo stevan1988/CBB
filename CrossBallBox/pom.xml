@@ -51,17 +51,22 @@
 		<!-- </dependency> -->
 
 		<!-- mysql -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>mysql</groupId> -->
+<!-- 			<artifactId>mysql-connector-java</artifactId> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
 		
 		<!-- Postgre-->
-		<dependency>
-	<groupId>org.postgresql</groupId>
-	<artifactId>postgresql</artifactId>
-	<scope>runtime</scope>
+<!-- 		<dependency> -->
+<!-- 	<groupId>org.postgresql</groupId> -->
+<!-- 	<artifactId>postgresql</artifactId> -->
+<!-- 	<scope>runtime</scope> -->
+<!-- </dependency> -->
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>9.3-1100-jdbc41</version>
 </dependency>
 
 		<dependency>

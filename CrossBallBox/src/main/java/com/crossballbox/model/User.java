@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-@Entity
+@Entity(name="users")
 @SuppressWarnings("serial")
 @Cacheable(false)
 public class User implements Serializable, Comparable<User> {
