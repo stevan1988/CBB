@@ -177,7 +177,8 @@ public class AdminController {
   }
 
   @RequestMapping(value = "/notifications", method = RequestMethod.GET)
-  public String notifications() {
+  public String notifications(Model model) {
+    model = adminService.populateNotification(model);
     return "admin/notifications";
   }
 
@@ -238,19 +239,19 @@ public class AdminController {
     List<User> users = new ArrayList<User>();
     if (program == null) {
       if (!(query.isEmpty() || "".equals(query.trim()) || "*".equals(query.trim()))) {
-        User user = userDAO.getUserByUsername(query); // i da nije admin user!!!
+        User user = userDAO.getUserByUsernameIgnoreCase(query); // i da nije admin user!!!
         if (user != null)
           users.add(user);
-        List<User> tempUsers = userDAO.getUsersByFirstName(query);
+        List<User> tempUsers = userDAO.findByFirstNameIgnoreCase(query);
         if (tempUsers.size() > 0)
           users.addAll(tempUsers);
-        tempUsers = userDAO.getUsersByLastName(query);
+        tempUsers = userDAO.findByLastNameIgnoreCase(query);
         if (tempUsers.size() > 0)
           users.addAll(tempUsers);
-        tempUsers = userDAO.findUsersByFirstNameContaining(query);
+        tempUsers = userDAO.findByFirstNameContainingIgnoreCase(query);
         if (tempUsers.size() > 0)
           users.addAll(tempUsers);
-        tempUsers = userDAO.findUsersByLastNameContaining(query);
+        tempUsers = userDAO.findByLastNameContainingIgnoreCase(query);
         if (tempUsers.size() > 0)
           users.addAll(tempUsers);
 

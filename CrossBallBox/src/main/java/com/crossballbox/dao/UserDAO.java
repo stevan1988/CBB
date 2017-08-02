@@ -10,18 +10,19 @@ import com.crossballbox.model.User;
 public interface UserDAO extends JpaRepository<User, Integer> {
 
 	User findById(int id);
+//	findByNameContainingIgnoreCase
 	
 	User findUserByToken(String token);
 	
-	User getUserByUsername(String username);
+	User getUserByUsernameIgnoreCase(String username);
 	
-	List<User> findUsersByFirstNameContaining(String firstName);
+	List<User> findByFirstNameContainingIgnoreCase(String firstName);
 	
-	List<User> findUsersByLastNameContaining(String lastName);
+	List<User> findByLastNameContainingIgnoreCase(String lastName);
 	
-	List<User> getUsersByFirstName(String firstName);
+	List<User> findByFirstNameIgnoreCase(String firstName);
 	
-	List<User> getUsersByLastName(String lastName);
+	List<User> findByLastNameIgnoreCase(String lastName);
 	
 	List<User> findAll();
 	

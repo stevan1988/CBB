@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -13,7 +12,7 @@ import javax.persistence.OneToOne;
 @SuppressWarnings("serial")
 public class UserAdditionalInfo implements Serializable {
 
-//	@GeneratedValue
+//	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id
 	@Column(name = "id")
 	private int id;

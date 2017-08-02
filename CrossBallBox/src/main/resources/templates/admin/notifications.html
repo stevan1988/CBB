@@ -12,7 +12,26 @@
 <title>Notifications</title>
 </head>
 <body>
+<div layout:fragment="content" class="table-responsive">
+<div class="container">
+			<div class="page-header"></div>
+Members that feeds expired in 3 or less days:
 
-
+<div>
+											<ul style="color:black">
+												<li id="noti_Container">
+														<table>
+															<tr th:each="notif : ${notifications}">
+															<td>
+																<a th:href="'user?id='+${notif.key}" th:text="${notif.value}">
+																</a>
+																</td>
+															</tr>
+															</table>
+												</li>
+											</ul>
+										</div>
+										</div>
+</div>
 </body>
 </html>

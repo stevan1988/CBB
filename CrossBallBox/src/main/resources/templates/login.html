@@ -1,4 +1,7 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	layout:decorator="layouts/main">
 <head>
 	<link rel="icon" href="../img/favicon.png"></link>
 
@@ -7,6 +10,9 @@
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
 <body>
+<div layout:fragment="content" class="table-responsive">
+<div class="container">
+			<div class="page-header"></div>
 <div class="container-fluid wrapper">
     <div class="login container col-md-6 col-md-offset-3">
         <div class="panel panel-default">
@@ -45,5 +51,6 @@
         </div>
     </div>
 </div>
+</div></div>
 </body>
 </html>

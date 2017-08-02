@@ -90,8 +90,27 @@ function chooseFile() {
 //});
 
 $('input[type=file]').change(function() {
-    $('input[type=text]').val($(this).val());
+	//check if picture is valid
+		var file  = this.files[0];
+	  var img = new Image();
+	  
+		img.onload = function() {
+	    var sizes = {
+	    	width:this.width,
+	      height: this.height
+	    };
+	    URL.revokeObjectURL(this.src);
+	    
+		}
+
+	  var objectURL = URL.createObjectURL(file);
+	  
+	  img.src = objectURL;
+	
+	  if(this.files[0].size <= 100000){	
+	//submit form
     document.getElementById("upload_image").submit();
+    }else {alert("Please enter smaller file!");}
 });
 //document.getElementById("upload_image").onchange = function() {
 //    document.getElementById("upload_image").submit();

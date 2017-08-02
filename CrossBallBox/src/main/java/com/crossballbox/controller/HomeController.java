@@ -75,7 +75,8 @@ public class HomeController {
 	    logger.info("create admin user!");
 
 	    String ADMIN = "admin";
-	    User user = adminService.createNewUser(ADMIN, ADMIN, "test@gmail.com", "1/1/2000", "123456", "NONE", ADMIN, ADMIN);
+	    String PASS = "cbbapp";
+	    User user = adminService.createNewUser(ADMIN, ADMIN, "test@gmail.com", "1/1/2000", "123456", "NONE", ADMIN, PASS);
 	    user.setRole("ROLE_ADMIN");
 	    userDAO.save(user);
 
@@ -228,19 +229,19 @@ public class HomeController {
 		logger.info("Search query: " + query);
 		List<User> users = new ArrayList<User>();
 		if (!(query.isEmpty() || "".equals(query.trim()) || "*".equals(query.trim()))) {
-			User user = userDAO.getUserByUsername(query);
+			User user = userDAO.getUserByUsernameIgnoreCase(query);
 			if(user != null)
 				users.add(user);
-			List<User> tempUsers = userDAO.getUsersByFirstName(query);
+			List<User> tempUsers = userDAO.findByFirstNameIgnoreCase(query);
 			if(tempUsers.size()>0)
 				users.addAll(tempUsers);
-			tempUsers = userDAO.getUsersByLastName(query);
+			tempUsers = userDAO.findByLastNameIgnoreCase(query);
 			if(tempUsers.size()>0)
 				users.addAll(tempUsers);
-			tempUsers = userDAO.findUsersByFirstNameContaining(query);
+			tempUsers = userDAO.findByFirstNameContainingIgnoreCase(query);
 			if(tempUsers.size()>0)
 				users.addAll(tempUsers);
-			tempUsers = userDAO.findUsersByLastNameContaining(query);
+			tempUsers = userDAO.findByLastNameContainingIgnoreCase(query);
 			if(tempUsers.size()>0)
 				users.addAll(tempUsers);
 			

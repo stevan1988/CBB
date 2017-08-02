@@ -6,8 +6,7 @@
 <script type="text/javascript" th:src="@{/js/user_details.js}"></script>
 <link href="css/bootstrap-switch/bootstrap-switch.css" rel="stylesheet" />
 <link rel="stylesheet" th:href="@{/css/user-details.css}" />
-<link rel="stylesheet"
-	href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
 <head>
 <title>Search results</title>
 </head>
@@ -39,19 +38,7 @@
 															<input type="file" id="imgInput" name="uploadfile" accept=".jpg" />
 														</div>
 													</form>
-													<div>
-														<!-- Upload file form  -->
-<!-- 														<form id="upload_image" th:action="@{/admin/upload_image}" -->
-<!-- 															method="post" th:object="${project}"> -->
-<!-- 															<input type="hidden" name="userId" -->
-<!-- 																th:value="${userProfile.id}" />  -->
-<!-- 															<label for="upload-file-input">Upload your file:</label>  -->
-<!-- 															<input id="upload-file-input" type="file" name="uploadfile" accept=".jpg" /> -->
-<!-- 															 <input class="btn btn-default navbar-btn btn-primary" -->
-<!-- 																type="submit" value="Save Image" /> -->
-<!-- 														</form> -->
-
-													</div>
+													
 												</td>
 												<td
 													th:text="${userProfile.firstName} + ' ' + ${userProfile.lastName}"></td>
@@ -92,7 +79,7 @@
 			<form id="member-fees" th:action="@{/admin/setMemberFees}"
 				method="post" th:object="${project}">
 				<div class="project-list single">
-					<input type="hidden" name="id" th:value="${userInfo.id}" /> <label
+					<input type="hidden" name="id" th:value="${userProfile.id}" /> <label
 						for="date-started">Last member fees paid:</label> 
 					<input name="date" type="date" id="date-started"
 						th:value="${userInfo.memberFees}"  pattern="[0-9]{1,4}+\.[0-9]{0,4}$"
@@ -112,8 +99,10 @@
 				style="font-size: large">User Information</span></a>
 			<form id="userInfoForm" th:action="@{/admin/saveUserInfo}"
 				method="post" th:object="${project}">
+					
+				
 				<div class="container">
-					<input type="hidden" name="id" th:value="${userInfo.id}" />
+					<input type="hidden" name="id" th:value="${userProfile.id}" />
 					<table class="table table-striped table-hover" id="family_table">
 						<thead>
 							<tr>
@@ -121,21 +110,18 @@
 							</tr>
 							<tr>
 								<td>Dijabetis u porodici?</td>
-
 								<td>
-									<div class="checkbox checkbox-primary">
 										<input type="radio" name="family_diabetis"
-											class="custom-control-input option-input radio" value="no"
+											value="no"
 											th:checked="${ (familyDataInfo !=null and (familyDataInfo.diabetes == false or familyDataInfo.diabetes == 'no'))  ? 'true' : 'false'} "
 											required="required" /> Ne
-									</div>
 								</td>
-								<td><div class="checkbox checkbox-primary">
+								<td>
 										<input type="radio" name="family_diabetis"
-											class="custom-control-input option-input radio" value="yes"
+											 value="yes"
 											th:checked="${ (familyDataInfo !=null and (familyDataInfo.diabetes == true  or familyDataInfo.diabetes == 'yes'))  ? 'true' : 'false'} "
 											required="required" /> Da
-									</div></td>
+								</td>
 							</tr>
 							<tr>
 								<td>Gojaznost u porodici?</td>
@@ -307,11 +293,11 @@
 										<th class="text-center">Date</th>
 										<th class="text-center">Body Height</th>
 										<th class="text-center">Body Weight</th>
-										<th class="text-center">BMI</th>
+										<th class="text-center">BM Index</th>
 										<th class="text-center">% total fat</th>
 										<th class="text-center">Visceral fat</th>
-										<th class="text-center">Waist size - struk</th>
-										<th class="text-center">Thigh size - butine</th>
+										<th class="text-center">Waist size</th>
+										<th class="text-center">Thigh size</th>
 										<th></th>
 									</tr>
 								</thead>

@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,7 +28,7 @@ public class UserProgress implements Serializable {
    */
   private static final long serialVersionUID = 6539159474684677701L;
 
-  @GeneratedValue
+  @GeneratedValue(strategy=GenerationType.AUTO)
   @Id
   @Column(name = "id")
   private int id;

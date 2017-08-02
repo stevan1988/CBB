@@ -9,11 +9,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.transaction.Transactional;
 
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -27,7 +29,7 @@ public class UserInfo implements Serializable {
   private static final long serialVersionUID = 5089797229581520127L;
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy=GenerationType.AUTO)
   @Column(name = "id", nullable = false)
   private int id;
 
@@ -35,6 +37,7 @@ public class UserInfo implements Serializable {
   private String imagePath;
 
   @Lob
+  @Type(type= "com.crossballbox.model.User") 
   @Column(name = "user_id", nullable = false)
   User user;
 
@@ -58,14 +61,17 @@ public class UserInfo implements Serializable {
   private String profession;
 
   @Lob
+  @Type(type= "com.crossballbox.model.FamilyData") 
   @OneToOne(mappedBy = "userInfo", fetch = FetchType.EAGER)
   private FamilyData familyData;
 
   @Lob
+  @Type(type= "com.crossballbox.model.UserHealthyState") 
   @OneToOne(fetch = FetchType.EAGER, mappedBy = "userInfo")
   private UserHealthyState userHealthyState;
 
   @Lob
+  @Type(type= "com.crossballbox.model.UserAdditionalInfo") 
   @OneToOne(fetch = FetchType.EAGER, mappedBy = "userInfo")
   private UserAdditionalInfo userAdditionalInfo;
 

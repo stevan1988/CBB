@@ -10,19 +10,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+
+import org.hibernate.annotations.Type;
 
 @Entity(name="users")
 @SuppressWarnings("serial")
 @Cacheable(false)
 public class User implements Serializable, Comparable<User> {
 
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id
 	@Column(name = "id", nullable = false)
 	private int id;
@@ -54,6 +56,7 @@ public class User implements Serializable, Comparable<User> {
 	private String role = "ROLE_USER";
 	
 	@Lob
+	@Type(type= "com.crossballbox.model.UserInfo") //ovo je moralo da se doda za svaki @Lob kad sam migrirao iz mySQL u Posgtresql
 	@Column(name = "user_info")
 	UserInfo userInfo;
 	

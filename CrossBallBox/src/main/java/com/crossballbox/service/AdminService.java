@@ -171,7 +171,7 @@ public class AdminService {
 
   public boolean isValidUsername(String username) {
     boolean ret = true;
-    if (userDAO.getUserByUsername(username) != null) {
+    if (userDAO.getUserByUsernameIgnoreCase(username) != null) {
       ret = false;
     }
     return ret;
@@ -265,7 +265,7 @@ public class AdminService {
     Map<Integer, String> notificationsLinks = new HashMap<Integer, String>();
     for (UserInfo userInfo : userInfoList) {
       if (userInfo.getMemberFees().isBefore(LocalDate.now().minusMonths(1).plusDays(3))) {
-        notificationsLinks.put(userInfo.getId(), userInfo.getUser().getFirstName() + " " + userInfo.getUser().getLastName());
+        notificationsLinks.put(userInfo.getUser().getId(), userInfo.getUser().getFirstName() + " " + userInfo.getUser().getLastName());
       }
     }
     // notificationsLinks treba da bude <= 15 - reseno na beckendu, lakse mi je tako

@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
 		org.springframework.security.core.userdetails.User retUser = new org.springframework.security.core.userdetails.User(
 				"bad", "user", grantedAuthorities);
 		try {
-			User user = userDAO.getUserByUsername(username);
+			User user = userDAO.getUserByUsernameIgnoreCase(username);
 			if ("true".equals(user.getEnabled())) {
 				String role = user.getRole();
 				grantedAuthorities.add(new SimpleGrantedAuthority(role));

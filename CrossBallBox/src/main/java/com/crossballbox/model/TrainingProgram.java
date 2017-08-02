@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,7 +16,7 @@ import javax.persistence.ManyToOne;
 public class TrainingProgram implements Serializable{
 
 	
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id
 	@Column(name="id", nullable=false)
 	private int id;
